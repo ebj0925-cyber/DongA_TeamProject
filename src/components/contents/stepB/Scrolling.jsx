@@ -101,7 +101,7 @@ function Scrolling() {
     const handleWheel = (event) => {
       // 마우스 휠은 페이지 이동이 아니라 3D 공간 전진/후진으로 사용합니다.
       event.preventDefault();
-      addProgress(event.deltaY / 10500);
+      addProgress(event.deltaY / 19500);
     };
 
     const handleTouchStart = (event) => {
@@ -169,7 +169,7 @@ function Scrolling() {
       // 진행률도 매 프레임 보간합니다.
       // 복귀 중에는 더 느린 속도를 써서 처음으로 끌려가는 느낌을 냅니다.
       setScrollProgress((current) => {
-        const speed = isRestoringRef.current ? 0.045 : 0.09;
+        const speed = isRestoringRef.current ? 0.04 : 0.055;
         const next = lerp(current, targetProgressRef.current, speed);
 
         if (Math.abs(next - current) < 0.0005) {
@@ -224,6 +224,22 @@ function Scrolling() {
   };
 
   const handlePointerMove = (event) => {
+    if (!dragStartRef.current && event.pointerType === 'mouse' && !gyroEnabled) {
+      const rect = viewportRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      // 마우스가 화면 중앙에서 벗어난 정도를 시점 회전으로 사용합니다.
+      // 별도 드래그 없이도 커서를 옮기면 주변을 살짝 둘러보는 효과가 납니다.
+      const offsetX = (event.clientX - rect.left) / rect.width - 0.5;
+      const offsetY = (event.clientY - rect.top) / rect.height - 0.5;
+
+      targetLookRef.current = {
+        x: clamp(offsetX * -42, -DRAG_LIMIT, DRAG_LIMIT),
+        y: clamp(offsetY * -34, -26, 26),
+      };
+      return;
+    }
+
     if (!dragStartRef.current) return;
 
     // 포인터 이동 거리를 회전 각도로 변환해서 사용자가 주변을 둘러볼 수 있게 합니다.
@@ -231,8 +247,8 @@ function Scrolling() {
     const deltaY = event.clientY - dragStartRef.current.y;
 
     targetLookRef.current = {
-      x: clamp(dragStartRef.current.look.x + deltaX * 0.12, -DRAG_LIMIT, DRAG_LIMIT),
-      y: clamp(dragStartRef.current.look.y - deltaY * 0.08, -24, 24),
+      x: clamp(dragStartRef.current.look.x - deltaX * 0.12, -DRAG_LIMIT, DRAG_LIMIT),
+      y: clamp(dragStartRef.current.look.y - deltaY * 0.1, -26, 26),
     };
   };
 
@@ -285,6 +301,9 @@ function Scrolling() {
     '--look-y': `${look.y}deg`,
     '--progress': scrollProgress,
   };
+  const viewportStyle = {
+    '--progress': scrollProgress,
+  };
 
   return (
     <section className="scroll3d" ref={shellRef}>
@@ -295,6 +314,7 @@ function Scrolling() {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
+        style={viewportStyle}
         tabIndex={0}
       >
         <div className="scroll3d__hud" aria-live="polite">

@@ -27,9 +27,8 @@
   touch-action: none;
   cursor: grab;
   background:
-    radial-gradient(ellipse at 50% 46%, rgba(104, 191, 255, 0.2) 0%, rgba(20, 91, 151, 0.12) 20%, transparent 44%),
-    radial-gradient(ellipse at 50% 58%, rgba(0, 42, 92, 0.42) 0%, rgba(0, 12, 30, 0.78) 52%, #000 82%),
-    linear-gradient(180deg, #0b5f96 0%, #063c6d 18%, var(--deep-blue) 42%, var(--abyss-blue) 68%, #000 100%);
+    linear-gradient(rgba(0, 0, 0, calc(var(--progress, 0) * 0.56)), rgba(0, 0, 0, calc(var(--progress, 0) * 0.72))),
+    #021d45;
   user-select: none;
 }
 
@@ -40,24 +39,12 @@
   inset: 0;
   z-index: 4;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse at 50% 50%, transparent 0 22%, rgba(0, 18, 42, 0.3) 45%, rgba(0, 0, 0, 0.86) 100%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.76), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.76)),
-    linear-gradient(180deg, rgba(35, 137, 194, 0.16), transparent 26%, rgba(0, 0, 0, 0.58) 100%);
+  background: rgba(0, 0, 0, calc(var(--progress, 0) * 0.26));
+  opacity: 1;
 }
 
 .scroll3d__viewport::before {
-  content: '';
-  position: absolute;
-  inset: -18%;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    conic-gradient(from 180deg at 50% 52%, transparent 0deg, rgba(101, 188, 255, 0.12) 34deg, transparent 74deg, rgba(0, 74, 140, 0.14) 132deg, transparent 192deg, rgba(98, 178, 255, 0.1) 248deg, transparent 360deg),
-    repeating-radial-gradient(ellipse at 50% 52%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 68px);
-  opacity: 0.42;
-  transform: rotate(calc(var(--progress, 0) * 28deg)) scale(calc(1 + var(--progress, 0) * 0.18));
-  transform-origin: center;
+  display: none;
 }
 
 .scroll3d__viewport:active {
@@ -225,7 +212,7 @@
     rotateX(calc(var(--look-y) * 1))
     rotateY(calc(var(--look-x) * -1))
     translateZ(var(--camera-z));
-  transition: transform 80ms linear;
+  will-change: transform;
 }
 
 /* 바닥 격자선입니다. Z축으로 반복 배치해서 깊이감을 만듭니다. */
@@ -234,97 +221,11 @@
   transform-style: preserve-3d;
 }
 
-.scroll3d__floor span {
-  position: absolute;
-  left: -520px;
-  top: 160px;
-  width: 1040px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--dim-white), transparent);
-  transform: translateZ(var(--z)) rotateX(82deg);
-}
-
-/* 양옆으로 길게 뻗은 소실선입니다. 복도처럼 보이게 하는 보조 요소입니다. */
-.scroll3d__vanish-line {
-  position: absolute;
-  top: 0;
-  width: 1px;
-  height: 7600px;
-  background: linear-gradient(180deg, transparent, var(--dim-white), transparent);
-  transform-origin: top;
-}
-
-.scroll3d__vanish-line--left {
-  left: -420px;
-  transform: translateZ(-3600px) rotateX(90deg) rotateZ(-14deg);
-}
-
-.scroll3d__vanish-line--right {
-  left: 420px;
-  transform: translateZ(-3600px) rotateX(90deg) rotateZ(14deg);
-}
-
-/* 흰색 기둥 오브젝트입니다. 각 기둥은 JS에서 다른 위치와 높이를 받습니다. */
-.scroll3d__pillar {
-  position: absolute;
-  left: -1px;
-  top: calc(var(--h) / -2);
-  width: 2px;
-  height: var(--h);
-  opacity: var(--o);
-  background: var(--white);
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.45);
-  transform: translate3d(var(--x), var(--y), var(--z));
-}
-
-.scroll3d__pillar::before,
-.scroll3d__pillar::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  width: 12px;
-  height: 12px;
-  border: 1px solid var(--white);
-  border-radius: 50%;
-  transform: translateX(-50%);
-}
-
-.scroll3d__pillar::before {
-  top: -18px;
-}
-
-.scroll3d__pillar::after {
-  bottom: -18px;
-}
-
-.scroll3d__pillar--tall {
-  width: 4px;
-  opacity: 0.48;
-}
-
-/* 원형 게이트입니다. 사용자가 전진할 때 통과하는 구조물처럼 보입니다. */
+.scroll3d__floor,
+.scroll3d__vanish-line,
+.scroll3d__pillar,
 .scroll3d__ring {
-  position: absolute;
-  left: calc(var(--size) / -2);
-  top: calc(var(--size) / -2);
-  width: var(--size);
-  height: var(--size);
-  border: 1px solid var(--dim-white);
-  border-radius: 50%;
-  transform: translateZ(var(--z)) rotateY(var(--tilt));
-}
-
-.scroll3d__ring::before,
-.scroll3d__ring::after {
-  content: '';
-  position: absolute;
-  inset: 18%;
-  border: 1px solid var(--faint-white);
-  border-radius: inherit;
-}
-
-.scroll3d__ring::after {
-  inset: 38%;
+  display: none;
 }
 
 /* 중간 챕터 텍스트와 마지막 도착 지점의 공통 스타일입니다. */
