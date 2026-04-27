@@ -8,12 +8,26 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  height: 100svh;
-  min-height: 100svh;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   color: var(--white);
   background: #00040b;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+html:has(.scroll3d),
+body:has(.scroll3d),
+#root:has(.scroll3d),
+#wrapper:has(.scroll3d),
+#container:has(.scroll3d),
+#content:has(.scroll3d) {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #000;
 }
 
 /* 전체 화면을 덮는 실제 인터랙션 영역입니다. */
@@ -21,9 +35,14 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  height: 100svh;
-  min-height: 560px;
+  height: 100%;
+  min-height: 100%;
   overflow: hidden;
+  padding:
+    env(safe-area-inset-top, 0)
+    env(safe-area-inset-right, 0)
+    env(safe-area-inset-bottom, 0)
+    env(safe-area-inset-left, 0);
   touch-action: none;
   cursor: grab;
   background:
@@ -59,7 +78,7 @@
 /* 상단 제목과 현재 가상 스크롤 진행률 표시입니다. */
 .scroll3d__hud {
   position: absolute;
-  z-index: 5;
+  z-index: 6;
   top: clamp(18px, 4vw, 44px);
   left: clamp(18px, 4vw, 56px);
   right: clamp(18px, 4vw, 56px);
@@ -129,7 +148,7 @@
 /* 왼쪽 세로 진행 바입니다. 실제 스크롤바가 아니라 현재 3D 진행률을 보여줍니다. */
 .scroll3d__progress {
   position: absolute;
-  z-index: 5;
+  z-index: 6;
   top: 22vh;
   bottom: 22vh;
   left: clamp(18px, 3vw, 42px);
@@ -230,6 +249,29 @@
 .scroll3d__vanish-line,
 .scroll3d__pillar,
 .scroll3d__ring {
+  display: none;
+}
+
+/* 물방울은 canvas 한 장에 그립니다. DOM 입자를 여러 개 만들지 않아 모바일에서도 부담이 적습니다. */
+.scroll3d__bubbles {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.scroll3d__bubbles + div,
+.scroll3d__bubbles ~ div,
+.scroll3d * {
+  scrollbar-width: none;
+}
+
+.scroll3d__bubbles + div::-webkit-scrollbar,
+.scroll3d__bubbles ~ div::-webkit-scrollbar,
+.scroll3d *::-webkit-scrollbar {
   display: none;
 }
 
@@ -348,12 +390,15 @@
 /* 모바일에서는 화면 폭이 좁기 때문에 텍스트와 클릭 영역을 줄입니다. */
 @media (max-width: 768px) {
   .scroll3d {
-    height: 100svh;
-    min-height: 100svh;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .scroll3d__viewport {
-    min-height: 100svh;
+    height: 100%;
+    min-height: 100%;
   }
 
   .scroll3d__hud {
