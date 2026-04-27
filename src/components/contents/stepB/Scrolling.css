@@ -1,0 +1,505 @@
+.scroll3d {
+  --white: #f8f8f8;
+  --soft-white: rgba(255, 255, 255, 0.72);
+  --dim-white: rgba(255, 255, 255, 0.24);
+  --faint-white: rgba(255, 255, 255, 0.08);
+  --deep-blue: #031c3d;
+  --abyss-blue: #020b1c;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  height: 100svh;
+  min-height: 100svh;
+  margin: 0;
+  color: var(--white);
+  background: #00040b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 전체 화면을 덮는 실제 인터랙션 영역입니다. */
+.scroll3d__viewport {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(104, 191, 255, 0.2) 0%, rgba(20, 91, 151, 0.12) 20%, transparent 44%),
+    radial-gradient(ellipse at 50% 58%, rgba(0, 42, 92, 0.42) 0%, rgba(0, 12, 30, 0.78) 52%, #000 82%),
+    linear-gradient(180deg, #0b5f96 0%, #063c6d 18%, var(--deep-blue) 42%, var(--abyss-blue) 68%, #000 100%);
+  user-select: none;
+}
+
+/* 화면 가장자리에 어둡게 비네팅을 얹어 중앙 3D 공간에 시선이 모이게 합니다. */
+.scroll3d__viewport::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 0 22%, rgba(0, 18, 42, 0.3) 45%, rgba(0, 0, 0, 0.86) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.76), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.76)),
+    linear-gradient(180deg, rgba(35, 137, 194, 0.16), transparent 26%, rgba(0, 0, 0, 0.58) 100%);
+}
+
+.scroll3d__viewport::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    conic-gradient(from 180deg at 50% 52%, transparent 0deg, rgba(101, 188, 255, 0.12) 34deg, transparent 74deg, rgba(0, 74, 140, 0.14) 132deg, transparent 192deg, rgba(98, 178, 255, 0.1) 248deg, transparent 360deg),
+    repeating-radial-gradient(ellipse at 50% 52%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 68px);
+  opacity: 0.42;
+  transform: rotate(calc(var(--progress, 0) * 28deg)) scale(calc(1 + var(--progress, 0) * 0.18));
+  transform-origin: center;
+}
+
+.scroll3d__viewport:active {
+  cursor: grabbing;
+}
+
+/* 상단 제목과 현재 가상 스크롤 진행률 표시입니다. */
+.scroll3d__hud {
+  position: absolute;
+  z-index: 5;
+  top: clamp(18px, 4vw, 44px);
+  left: clamp(18px, 4vw, 56px);
+  right: clamp(18px, 4vw, 56px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  pointer-events: none;
+}
+
+.scroll3d__kicker {
+  margin: 0 0 10px;
+  color: var(--soft-white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.scroll3d__hud h2 {
+  max-width: min(520px, 68vw);
+  margin: 0;
+  color: var(--white);
+  font-size: clamp(24px, 4vw, 58px);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.scroll3d__hud > span {
+  min-width: 72px;
+  color: var(--white);
+  font-size: clamp(18px, 2.8vw, 40px);
+  line-height: 1;
+  text-align: right;
+}
+
+/* 우측 하단 컨트롤입니다. Recenter는 시점 복귀, Gyro는 모바일 기울기 연동입니다. */
+.scroll3d__controls {
+  position: absolute;
+  z-index: 6;
+  right: clamp(18px, 4vw, 56px);
+  bottom: clamp(18px, 4vw, 48px);
+  display: flex;
+  gap: 8px;
+}
+
+.scroll3d__controls button {
+  min-width: 82px;
+  height: 36px;
+  border: 1px solid var(--dim-white);
+  border-radius: 999px;
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(16px);
+}
+
+.scroll3d__controls button:hover,
+.scroll3d__controls button:focus-visible,
+.scroll3d__controls button[aria-pressed='true'] {
+  border-color: var(--white);
+  outline: none;
+}
+
+/* 왼쪽 세로 진행 바입니다. 실제 스크롤바가 아니라 현재 3D 진행률을 보여줍니다. */
+.scroll3d__progress {
+  position: absolute;
+  z-index: 5;
+  top: 22vh;
+  bottom: 22vh;
+  left: clamp(18px, 3vw, 42px);
+  width: 1px;
+  background: var(--faint-white);
+}
+
+.scroll3d__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: top;
+  background: var(--white);
+}
+
+/* 사용자가 어떤 입력을 할 수 있는지 알려주는 작은 힌트입니다. */
+.scroll3d__hint {
+  position: absolute;
+  z-index: 5;
+  left: clamp(18px, 4vw, 56px);
+  bottom: clamp(18px, 4vw, 48px);
+  display: flex;
+  gap: 10px;
+  color: var(--soft-white);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scroll3d__hint span {
+  padding: 8px 10px;
+  border: 1px solid var(--faint-white);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* 3D 카메라 레이어입니다. 여기서 perspective를 만들고 내부 월드를 바라봅니다. */
+.scroll3d__camera {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  perspective: 760px;
+  perspective-origin: 50% 50%;
+  pointer-events: none;
+}
+
+/* 마지막 Connection Point는 3D transform 때문에 클릭 판정이 불안정할 수 있습니다.
+   그래서 실제 클릭은 이 투명한 2D 원형 영역이 담당합니다. */
+.scroll3d__destination-hit {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  top: 50%;
+  width: min(42vw, 320px);
+  height: min(42vw, 320px);
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.scroll3d__destination-hit[data-visible='true'] {
+  pointer-events: auto;
+}
+
+.scroll3d__destination-hit:focus-visible {
+  outline: 1px solid var(--white);
+  outline-offset: 8px;
+}
+
+/* 3D 공간 전체입니다. JS에서 넘긴 --camera-z와 --look-* 값으로 이동/회전합니다. */
+.scroll3d__world {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 1px;
+  transform-style: preserve-3d;
+  transform:
+    rotateX(calc(var(--look-y) * 1))
+    rotateY(calc(var(--look-x) * -1))
+    translateZ(var(--camera-z));
+  transition: transform 80ms linear;
+}
+
+/* 바닥 격자선입니다. Z축으로 반복 배치해서 깊이감을 만듭니다. */
+.scroll3d__floor {
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.scroll3d__floor span {
+  position: absolute;
+  left: -520px;
+  top: 160px;
+  width: 1040px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--dim-white), transparent);
+  transform: translateZ(var(--z)) rotateX(82deg);
+}
+
+/* 양옆으로 길게 뻗은 소실선입니다. 복도처럼 보이게 하는 보조 요소입니다. */
+.scroll3d__vanish-line {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 7600px;
+  background: linear-gradient(180deg, transparent, var(--dim-white), transparent);
+  transform-origin: top;
+}
+
+.scroll3d__vanish-line--left {
+  left: -420px;
+  transform: translateZ(-3600px) rotateX(90deg) rotateZ(-14deg);
+}
+
+.scroll3d__vanish-line--right {
+  left: 420px;
+  transform: translateZ(-3600px) rotateX(90deg) rotateZ(14deg);
+}
+
+/* 흰색 기둥 오브젝트입니다. 각 기둥은 JS에서 다른 위치와 높이를 받습니다. */
+.scroll3d__pillar {
+  position: absolute;
+  left: -1px;
+  top: calc(var(--h) / -2);
+  width: 2px;
+  height: var(--h);
+  opacity: var(--o);
+  background: var(--white);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.45);
+  transform: translate3d(var(--x), var(--y), var(--z));
+}
+
+.scroll3d__pillar::before,
+.scroll3d__pillar::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--white);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.scroll3d__pillar::before {
+  top: -18px;
+}
+
+.scroll3d__pillar::after {
+  bottom: -18px;
+}
+
+.scroll3d__pillar--tall {
+  width: 4px;
+  opacity: 0.48;
+}
+
+/* 원형 게이트입니다. 사용자가 전진할 때 통과하는 구조물처럼 보입니다. */
+.scroll3d__ring {
+  position: absolute;
+  left: calc(var(--size) / -2);
+  top: calc(var(--size) / -2);
+  width: var(--size);
+  height: var(--size);
+  border: 1px solid var(--dim-white);
+  border-radius: 50%;
+  transform: translateZ(var(--z)) rotateY(var(--tilt));
+}
+
+.scroll3d__ring::before,
+.scroll3d__ring::after {
+  content: '';
+  position: absolute;
+  inset: 18%;
+  border: 1px solid var(--faint-white);
+  border-radius: inherit;
+}
+
+.scroll3d__ring::after {
+  inset: 38%;
+}
+
+/* 중간 챕터 텍스트와 마지막 도착 지점의 공통 스타일입니다. */
+.scroll3d__chapter,
+.scroll3d__destination {
+  position: absolute;
+  display: grid;
+  gap: 12px;
+  min-width: 240px;
+  color: var(--white);
+  transform-style: preserve-3d;
+}
+
+.scroll3d__chapter span,
+.scroll3d__destination span {
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--white);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.scroll3d__chapter strong,
+.scroll3d__destination strong {
+  font-size: clamp(26px, 5vw, 72px);
+  line-height: 0.92;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.scroll3d__chapter--one {
+  left: -480px;
+  top: -120px;
+  transform: translateZ(-860px) rotateY(20deg);
+}
+
+.scroll3d__chapter--two {
+  left: 220px;
+  top: -80px;
+  transform: translateZ(-2940px) rotateY(-26deg);
+}
+
+.scroll3d__chapter--three {
+  left: -520px;
+  top: -90px;
+  transform: translateZ(-5100px) rotateY(24deg);
+}
+
+/* 마지막 도착 지점입니다. 실제 클릭은 .scroll3d__destination-hit가 처리합니다. */
+.scroll3d__destination {
+  left: -210px;
+  top: -150px;
+  width: 420px;
+  place-items: center;
+  text-align: center;
+  color: var(--white);
+  transform: translateZ(-7600px);
+}
+
+.scroll3d__destination span {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, var(--white) 0 3px, transparent 4px);
+  box-shadow: 0 0 90px rgba(255, 255, 255, 0.62);
+}
+
+/* 92% 이후 도착 지점이 두 번 반짝입니다. 클릭 가능한 타이밍을 시각적으로 알려줍니다. */
+.scroll3d__destination[data-active='true'] span {
+  animation: scroll3d-pulse 880ms ease-out 2;
+}
+
+.scroll3d__destination[data-active='true'] strong {
+  animation: scroll3d-word-flare 880ms ease-out 2;
+}
+
+@keyframes scroll3d-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 90px rgba(255, 255, 255, 0.62);
+  }
+
+  38% {
+    transform: scale(1.16);
+    box-shadow:
+      0 0 28px rgba(255, 255, 255, 1),
+      0 0 120px rgba(255, 255, 255, 0.94),
+      0 0 220px rgba(255, 255, 255, 0.36);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 90px rgba(255, 255, 255, 0.62);
+  }
+}
+
+@keyframes scroll3d-word-flare {
+  0%,
+  100% {
+    opacity: 1;
+    text-shadow: none;
+  }
+
+  38% {
+    opacity: 1;
+    text-shadow: 0 0 26px rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* 모바일에서는 화면 폭이 좁기 때문에 텍스트와 클릭 영역을 줄입니다. */
+@media (max-width: 768px) {
+  .scroll3d {
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  .scroll3d__viewport {
+    min-height: 100svh;
+  }
+
+  .scroll3d__hud {
+    top: 18px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .scroll3d__hud h2 {
+    max-width: 82vw;
+    font-size: 30px;
+  }
+
+  .scroll3d__hud > span {
+    text-align: left;
+  }
+
+  .scroll3d__hint {
+    display: none;
+  }
+
+  .scroll3d__controls {
+    left: 18px;
+    right: auto;
+  }
+
+  .scroll3d__progress {
+    display: none;
+  }
+
+  .scroll3d__camera {
+    perspective: 560px;
+  }
+
+  .scroll3d__destination-hit {
+    width: min(72vw, 280px);
+    height: min(72vw, 280px);
+  }
+
+  .scroll3d__floor span {
+    left: -360px;
+    width: 720px;
+  }
+
+  .scroll3d__chapter--one,
+  .scroll3d__chapter--three {
+    left: -260px;
+  }
+
+  .scroll3d__chapter--two {
+    left: 92px;
+  }
+
+  .scroll3d__chapter strong,
+  .scroll3d__destination strong {
+    font-size: 34px;
+  }
+}
