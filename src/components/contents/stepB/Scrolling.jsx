@@ -1,17 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { ScrollControls, useScroll } from '@react-three/drei';
+import * as THREE from 'three';
 import './Scrolling.css';
 
 const DEPTH = 7600;
 const DRAG_LIMIT = 36;
+const BUBBLE_COUNT = 86;
+const BUBBLE_FAR_Z = -92;
+const BUBBLE_NEAR_Z = 5;
 
-// 숫자를 정해진 범위 안에 가둡니다.
-// 예: 진행률은 0~1, 시점 회전은 너무 돌아가지 않게 제한합니다.
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
-// 현재 값에서 목표 값으로 조금씩 이동합니다.
-// 이 함수 덕분에 카메라가 순간이동하지 않고 부드럽게 따라갑니다.
 function lerp(start, end, progress) {
   return start + (end - start) * progress;
 }
@@ -27,8 +29,15 @@ function revealBetween(progress, start, fullyVisible, end) {
   return clamp(Math.min(fadeIn, fadeOut), 0, 1);
 }
 
-// 3D 공간 안에 배치할 흰색 기둥들을 미리 만듭니다.
-// 각 기둥은 CSS 변수로 x/y/z 위치와 높이를 받아서 깊이감 있게 놓입니다.
+function seededRandom(seed) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+}
+
+function randomRange(seed, min, max) {
+  return min + seededRandom(seed) * (max - min);
+}
+
 function buildDepthItems() {
   return Array.from({ length: 72 }, (_, index) => {
     const lane = index % 6;
@@ -53,8 +62,6 @@ function buildDepthItems() {
   });
 }
 
-// 사용자가 지나가는 원형 게이트를 만듭니다.
-// Z축으로 멀리 배치해서 스크롤할 때 앞으로 지나가는 것처럼 보이게 합니다.
 function buildRings() {
   return Array.from({ length: 13 }, (_, index) => ({
     id: `ring-${index}`,
@@ -66,20 +73,144 @@ function buildRings() {
   }));
 }
 
+function buildBubbleData() {
+  return Array.from({ length: BUBBLE_COUNT }, (_, index) => {
+    const seed = index + 1;
+    const layer = index % 10;
+    const near = layer > 6;
+    const mid = layer > 2 && layer <= 6;
+    const angle = randomRange(seed + 1, 0, Math.PI * 2);
+    const radius = near ? randomRange(seed + 2, 2.8, 7.4) : randomRange(seed + 2, 0.2, mid ? 4.2 : 2.4);
+
+    return {
+      x: Math.cos(angle) * radius,
+      y: Math.sin(angle) * radius * 0.72 + randomRange(seed + 3, -1.5, 1.5),
+      z: randomRange(seed + 4, BUBBLE_FAR_Z, -8),
+      radius: near ? randomRange(seed + 5, 0.055, 0.15) : randomRange(seed + 5, 0.012, mid ? 0.056 : 0.026),
+      opacity: near ? randomRange(seed + 6, 0.12, 0.22) : randomRange(seed + 6, 0.035, mid ? 0.12 : 0.07),
+      speed: near ? randomRange(seed + 7, 15, 26) : randomRange(seed + 7, 5, mid ? 15 : 9),
+      buoyancy: randomRange(seed + 8, 0.02, near ? 0.1 : 0.05),
+      drift: randomRange(seed + 9, 0.08, near ? 0.42 : 0.22),
+      phase: randomRange(seed + 10, 0, Math.PI * 2),
+      squash: near ? randomRange(seed + 11, 0.72, 1.28) : randomRange(seed + 11, 0.88, 1.12),
+    };
+  });
+}
+
+function Bubbles({ scrollVelocityRef, pointerMotionRef }) {
+  const meshRef = useRef(null);
+  const groupRef = useRef(null);
+  const bubbleEnergyRef = useRef(0);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const scroll = useScroll();
+  const { mouse } = useThree();
+  const bubbles = useMemo(buildBubbleData, []);
+
+  useFrame((state, delta) => {
+    const mesh = meshRef.current;
+    const group = groupRef.current;
+    if (!mesh || !group) return;
+
+    const scrollDelta = Math.abs(scroll.delta || 0);
+    const virtualVelocity = scrollVelocityRef?.current || 0;
+    const pointerMotion = pointerMotionRef?.current || 0;
+    const inputPower = clamp(scrollDelta * 8 + virtualVelocity * 82 + pointerMotion * 0.36, 0, 1);
+    const targetEnergy = smoothstep(0.06, 0.52, inputPower);
+    const energyLerp = targetEnergy > bubbleEnergyRef.current ? 0.035 : 0.018;
+    bubbleEnergyRef.current = lerp(bubbleEnergyRef.current, targetEnergy, energyLerp);
+
+    const visibility = smoothstep(0.06, 0.5, bubbleEnergyRef.current);
+    const zAcceleration = 0.025 + bubbleEnergyRef.current * 1.45;
+
+    mesh.visible = visibility > 0.01;
+    if (!mesh.visible) return;
+
+    group.rotation.y = lerp(group.rotation.y, mouse.x * 0.18, 0.045);
+    group.rotation.x = lerp(group.rotation.x, -mouse.y * 0.12, 0.045);
+    group.position.x = lerp(group.position.x, mouse.x * 0.55, 0.05);
+    group.position.y = lerp(group.position.y, mouse.y * 0.36, 0.05);
+
+    bubbles.forEach((bubble, index) => {
+      bubble.z += delta * bubble.speed * zAcceleration;
+      bubble.y += delta * bubble.buoyancy;
+
+      if (bubble.z > BUBBLE_NEAR_Z) {
+        const seed = state.clock.elapsedTime * 100 + index;
+        const angle = randomRange(seed + 1, 0, Math.PI * 2);
+        const radius = randomRange(seed + 2, 0.2, index % 10 > 6 ? 7.4 : 4.4);
+        bubble.x = Math.cos(angle) * radius;
+        bubble.y = Math.sin(angle) * radius * 0.72 + randomRange(seed + 3, -1.2, 1.2);
+        bubble.z = randomRange(seed + 4, BUBBLE_FAR_Z, -50);
+      }
+
+      const proximity = smoothstep(BUBBLE_FAR_Z, BUBBLE_NEAR_Z, bubble.z);
+      const driftX = Math.sin(state.clock.elapsedTime * 0.65 + bubble.phase) * bubble.drift;
+      const driftY = Math.cos(state.clock.elapsedTime * 0.48 + bubble.phase * 1.7) * bubble.drift * 0.35;
+      const radialPush = 1 + proximity * 1.85;
+      const scale = bubble.radius * (0.42 + proximity * 4.4) * visibility;
+
+      dummy.position.set((bubble.x + driftX) * radialPush, (bubble.y + driftY) * radialPush, bubble.z);
+      dummy.scale.set(scale * bubble.squash, scale, scale * 0.82);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(index, dummy.matrix);
+    });
+
+    mesh.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <group ref={groupRef}>
+      <instancedMesh ref={meshRef} args={[undefined, undefined, BUBBLE_COUNT]} frustumCulled={false}>
+        <sphereGeometry args={[1, 24, 16]} />
+        <meshStandardMaterial
+          color="#f7fcff"
+          emissive="#ffffff"
+          emissiveIntensity={0.025}
+          transparent
+          opacity={0.18}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          roughness={0.015}
+          metalness={0}
+          envMapIntensity={1.2}
+        />
+      </instancedMesh>
+    </group>
+  );
+}
+
+function BubbleField({ scrollVelocityRef, pointerMotionRef }) {
+  return (
+    <Canvas
+      className="scroll3d__bubbles"
+      camera={{ position: [0, 0, 8], fov: 58, near: 0.1, far: 140 }}
+      gl={{ alpha: true, antialias: true }}
+    >
+      <ambientLight intensity={0.1} />
+      <pointLight position={[0, 3.2, 5]} intensity={4.6} color="#ffffff" />
+      <pointLight position={[-5, -2, -8]} intensity={0.9} color="#dff9ff" />
+      <pointLight position={[4, 1, -18]} intensity={0.55} color="#ffffff" />
+      <ScrollControls pages={6} damping={0.18} style={{ scrollbarWidth: 'none' }}>
+        <Bubbles scrollVelocityRef={scrollVelocityRef} pointerMotionRef={pointerMotionRef} />
+      </ScrollControls>
+    </Canvas>
+  );
+}
+
 function Scrolling() {
   const shellRef = useRef(null);
   const viewportRef = useRef(null);
   const dragStartRef = useRef(null);
   const touchStartRef = useRef(null);
   const rafRef = useRef(0);
+  const pointerPointRef = useRef(null);
 
-  // target 계열 ref는 "목표값"입니다.
-  // 실제 화면 값은 requestAnimationFrame 안에서 이 값을 천천히 따라갑니다.
   const targetLookRef = useRef({ x: 0, y: 0 });
   const targetProgressRef = useRef(0);
+  const scrollVelocityRef = useRef(0);
+  const pointerMotionRef = useRef(0);
   const isRestoringRef = useRef(false);
 
-  // 실제 브라우저 문서 스크롤이 아니라, stepB 안에서만 쓰는 가상 스크롤 진행률입니다.
   const [scrollProgress, setScrollProgress] = useState(0);
   const [look, setLook] = useState({ x: 0, y: 0 });
   const [gyroEnabled, setGyroEnabled] = useState(false);
@@ -88,14 +219,11 @@ function Scrolling() {
   const depthItems = useMemo(buildDepthItems, []);
   const rings = useMemo(buildRings, []);
 
-  // 휠/터치/키보드 입력을 가상 스크롤 진행률에 더합니다.
   const addProgress = useCallback((delta) => {
     targetProgressRef.current = clamp(targetProgressRef.current + delta, 0, 1);
   }, []);
 
   useEffect(() => {
-    // stepB는 한 화면 고정형 인터랙션입니다.
-    // 문서 전체가 실제로 내려가지 않도록 body 스크롤을 잠급니다.
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -110,7 +238,6 @@ function Scrolling() {
     if (!viewport) return undefined;
 
     const handleWheel = (event) => {
-      // 마우스 휠은 페이지 이동이 아니라 3D 공간 전진/후진으로 사용합니다.
       event.preventDefault();
       addProgress(event.deltaY / 19500);
     };
@@ -127,7 +254,6 @@ function Scrolling() {
     const handleTouchMove = (event) => {
       if (touchStartRef.current === null) return;
 
-      // 모바일 세로 스와이프도 휠처럼 가상 스크롤 값으로 변환합니다.
       const currentY = event.touches[0]?.clientY ?? touchStartRef.current;
       const delta = touchStartRef.current - currentY;
       touchStartRef.current = currentY;
@@ -136,7 +262,6 @@ function Scrolling() {
     };
 
     const handleKeyDown = (event) => {
-      // 키보드로도 테스트할 수 있게 방향키와 PageUp/PageDown을 지원합니다.
       if (event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') {
         event.preventDefault();
         addProgress(0.045);
@@ -163,7 +288,8 @@ function Scrolling() {
 
   useEffect(() => {
     const tick = () => {
-      // 시점 회전도 목표값을 바로 적용하지 않고 천천히 따라가게 합니다.
+      pointerMotionRef.current = lerp(pointerMotionRef.current, 0, 0.045);
+
       setLook((current) => {
         const next = {
           x: lerp(current.x, targetLookRef.current.x, 0.12),
@@ -177,17 +303,17 @@ function Scrolling() {
         return next;
       });
 
-      // 진행률도 매 프레임 보간합니다.
-      // 복귀 중에는 더 느린 속도를 써서 처음으로 끌려가는 느낌을 냅니다.
       setScrollProgress((current) => {
         const speed = isRestoringRef.current ? 0.04 : 0.055;
         const next = lerp(current, targetProgressRef.current, speed);
+        scrollVelocityRef.current = lerp(scrollVelocityRef.current, Math.abs(next - current), 0.32);
 
         if (Math.abs(next - current) < 0.0005) {
           if (targetProgressRef.current === 0) {
             isRestoringRef.current = false;
           }
 
+          scrollVelocityRef.current = lerp(scrollVelocityRef.current, 0, 0.22);
           return targetProgressRef.current;
         }
 
@@ -205,7 +331,6 @@ function Scrolling() {
     if (!gyroEnabled) return undefined;
 
     const handleOrientation = (event) => {
-      // 모바일 기울기 값을 좌우/상하 시점 회전으로 변환합니다.
       const gamma = event.gamma ?? 0;
       const beta = event.beta ?? 0;
 
@@ -220,10 +345,7 @@ function Scrolling() {
   }, [gyroEnabled]);
 
   const handlePointerDown = (event) => {
-    // 투명 클릭 영역이나 컨트롤 버튼에서 시작한 이벤트는 드래그로 처리하지 않습니다.
-    if (event.target.closest('button')) {
-      return;
-    }
+    if (event.target.closest('button')) return;
 
     dragStartRef.current = {
       pointerId: event.pointerId,
@@ -239,10 +361,15 @@ function Scrolling() {
       const rect = viewportRef.current?.getBoundingClientRect();
       if (!rect) return;
 
-      // 마우스가 화면 중앙에서 벗어난 정도를 시점 회전으로 사용합니다.
-      // 별도 드래그 없이도 커서를 옮기면 주변을 살짝 둘러보는 효과가 납니다.
       const offsetX = (event.clientX - rect.left) / rect.width - 0.5;
       const offsetY = (event.clientY - rect.top) / rect.height - 0.5;
+      const previousPoint = pointerPointRef.current;
+      const motion = previousPoint
+        ? Math.hypot(event.clientX - previousPoint.x, event.clientY - previousPoint.y)
+        : Math.hypot(event.movementX || 0, event.movementY || 0);
+
+      pointerPointRef.current = { x: event.clientX, y: event.clientY };
+      pointerMotionRef.current = clamp(pointerMotionRef.current + motion / 90, 0, 1);
 
       targetLookRef.current = {
         x: clamp(offsetX * -42, -DRAG_LIMIT, DRAG_LIMIT),
@@ -253,7 +380,6 @@ function Scrolling() {
 
     if (!dragStartRef.current) return;
 
-    // 포인터 이동 거리를 회전 각도로 변환해서 사용자가 주변을 둘러볼 수 있게 합니다.
     const deltaX = event.clientX - dragStartRef.current.x;
     const deltaY = event.clientY - dragStartRef.current.y;
 
@@ -266,44 +392,23 @@ function Scrolling() {
   const handlePointerUp = (event) => {
     if (dragStartRef.current?.pointerId === event.pointerId) {
       dragStartRef.current = null;
+      pointerPointRef.current = null;
       if (!gyroEnabled) {
-        // 드래그를 놓으면 다시 정면으로 돌아옵니다.
-        // 자이로 사용 중에는 기기 기울기를 우선하므로 자동 복귀하지 않습니다.
         targetLookRef.current = { x: 0, y: 0 };
       }
     }
-  };
-
-  const handleRecenter = () => {
-    targetLookRef.current = { x: 0, y: 0 };
   };
 
   const handleRestoreScroll = (event) => {
     event?.preventDefault();
     event?.stopPropagation();
 
-    // 마지막 Connection Point 클릭 시 처음으로 돌아갑니다.
-    // scrollProgress를 바로 0으로 만들지 않고 목표값만 0으로 바꿔 자연스럽게 복귀시킵니다.
     targetLookRef.current = { x: 0, y: 0 };
     isRestoringRef.current = true;
     targetProgressRef.current = 0;
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
-  const handleEnableGyro = async () => {
-    const orientationEvent = window.DeviceOrientationEvent;
-
-    if (orientationEvent && typeof orientationEvent.requestPermission === 'function') {
-      // iOS Safari는 자이로 센서 사용 전에 사용자 클릭 기반 권한 요청이 필요합니다.
-      const permission = await orientationEvent.requestPermission();
-      setGyroEnabled(permission === 'granted');
-      return;
-    }
-
-    setGyroEnabled(true);
-  };
-
-  // 0~1 진행률을 실제 3D 카메라 이동 거리로 환산합니다.
   const cameraZ = scrollProgress * DEPTH;
   const routeProgress = Math.round(scrollProgress * 100);
   const stageStyle = {
@@ -336,29 +441,16 @@ function Scrolling() {
       >
         <div className="scroll3d__hud" aria-live="polite">
           <div>
-            <p className="scroll3d__kicker">STEP B / SCROLLING FIELD</p>
-            <h2>고립의 복도를 지나 연결 지점으로 이동</h2>
+            <p className="scroll3d__kicker">STEP B / 심해</p>
           </div>
           <span>{routeProgress}%</span>
-        </div>
-
-        <div className="scroll3d__controls">
-          <button type="button" onClick={handleRecenter}>
-            Recenter
-          </button>
-          <button type="button" onClick={handleEnableGyro} aria-pressed={gyroEnabled}>
-            {gyroEnabled ? 'Gyro On' : 'Gyro'}
-          </button>
         </div>
 
         <div className="scroll3d__progress" aria-hidden>
           <span style={{ transform: `scaleY(${Math.max(scrollProgress, 0.015)})` }} />
         </div>
 
-        <div className="scroll3d__hint">
-          <span>Scroll</span>
-          <span>Drag to look around</span>
-        </div>
+        <BubbleField scrollVelocityRef={scrollVelocityRef} pointerMotionRef={pointerMotionRef} />
 
         <button
           type="button"
