@@ -1,4 +1,7 @@
+import dotenv from 'dotenv';
 import mysql from 'mysql2/promise';
+
+dotenv.config();
 
 const dbConfig = {
   host: process.env.AIVEN_DB_HOST ?? 'mysql-1516c072-isolation2026.b.aivencloud.com',

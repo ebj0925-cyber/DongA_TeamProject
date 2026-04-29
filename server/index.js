@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import healthRoutes from './routes/healthRoutes.js';
 import isolationRoutes from './routes/isolationRoutes.js';
+import sceneRoutes from './routes/sceneRoutes.js';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const PORT = Number(process.env.PORT ?? 8787);
 app.use(cors());
 app.use(express.json());
 app.use('/api', healthRoutes);
+app.use('/api/scenes', sceneRoutes);
 app.use('/api/isolation', isolationRoutes);
 
 app.listen(PORT, () => {
