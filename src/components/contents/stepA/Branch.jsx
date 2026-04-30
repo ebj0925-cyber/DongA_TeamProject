@@ -19,6 +19,13 @@ function getProgress(ms) {
   return Math.min(100, Math.round((ms / TOTAL_MS) * 100));
 }
 
+const STEP_PROFILE_COOKIE = 'isolation_user_info';
+
+function setStepProfileCookie(profile) {
+  const encoded = encodeURIComponent(JSON.stringify(profile));
+  document.cookie = `${STEP_PROFILE_COOKIE}=${encoded}; path=/; max-age=${60 * 60 * 24}`;
+}
+
 export default function Branch() {
   const navigate = useNavigate();
   const videoRef = useRef(null);
@@ -34,6 +41,7 @@ export default function Branch() {
   const [draft, setDraft] = useState('');
   const [introName, setIntroName] = useState('');
   const [introAge, setIntroAge] = useState('');
+  const [introGender, setIntroGender] = useState('');
   const [showPanel, setShowPanel] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
@@ -90,6 +98,7 @@ export default function Branch() {
     setDraft(scene.interaction?.key ? answers[scene.interaction.key] || '' : '');
     setIntroName(answers.introName || '');
     setIntroAge(answers.introAge || '');
+    setIntroGender(answers.introGender || '');
     setShowPanel(false);
     setErrorMessage('');
   }, [sceneIndex, answers, scene]);
@@ -223,8 +232,8 @@ export default function Branch() {
 
   const saveInputAndMove = () => {
     if (scene.sceneCode === 'SCENE_0') {
-      if (!introName.trim() || !introAge.trim()) {
-        const message = '이름과 나이를 모두 입력해 주세요.';
+      if (!introName.trim() || !introAge.trim() || !introGender) {
+        const message = '이름, 나이, 성별을 모두 입력해 주세요.';
         setErrorMessage(message);
         window.alert(message);
         return;
@@ -233,7 +242,8 @@ export default function Branch() {
         ...prev,
         introName: introName.trim(),
         introAge: introAge.trim(),
-        [scene.interaction.key]: `${introName.trim()} / ${introAge.trim()}세`,
+        introGender,
+        [scene.interaction.key]: `${introName.trim()} / ${introAge.trim()}세 / ${introGender}`,
       }));
       moveNextScene();
       return;
@@ -282,6 +292,13 @@ export default function Branch() {
 
       const data = await response.json();
       setResult(data);
+      const numericAge = Number.parseInt(introAge, 10) || 0;
+      setStepProfileCookie({
+        id: data.participantId ?? null,
+        name: introName.trim(),
+        generation: numericAge <= 40 ? 'YB' : 'OB',
+        gender: introGender,
+      });
       navigate('/isolation/step2');
     } catch (error) {
       setErrorMessage('분석 전송 중 문제가 발생했습니다. 서버를 확인해 주세요.');
@@ -357,7 +374,7 @@ export default function Branch() {
                 {scene.interaction.label}
               </label>
               {scene.sceneCode === 'SCENE_0' ? (
-                <div className="stepa-player__choices">
+                <div className="stepa-player__intro-row">
                   <input
                     id="intro-name"
                     type="text"
@@ -374,6 +391,16 @@ export default function Branch() {
                     placeholder="나이 입력"
                     onChange={(e) => setIntroAge(e.target.value)}
                   />
+                  <select
+                    id="intro-gender"
+                    className="stepa-player__choice-btn stepa-player__intro-select"
+                    value={introGender}
+                    onChange={(e) => setIntroGender(e.target.value)}
+                  >
+                    <option value="">성별 선택</option>
+                    <option value="M">남자</option>
+                    <option value="F">여자</option>
+                  </select>
                 </div>
               ) : (
                 <textarea

@@ -17,13 +17,13 @@ export async function findSceneAnswerRows(connection) {
   return rows;
 }
 
-export async function insertParticipant(connection, { userName, age }) {
+export async function insertParticipant(connection, { userName, age, gender }) {
   const [result] = await connection.query(
     `
-      INSERT INTO survey_participants (user_name, age, total_score, result_analysis)
-      VALUES (?, ?, 0, '')
+      INSERT INTO survey_participants (user_name, age, gender, total_score, result_analysis)
+      VALUES (?, ?, ?, 0, '')
     `,
-    [userName, age],
+    [userName, age, gender],
   );
 
   return result.insertId;

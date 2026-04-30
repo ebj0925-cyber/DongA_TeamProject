@@ -21,6 +21,7 @@ export async function buildIsolationResult({ sessionId, submittedAt, totalScenes
   const participant = {
     userName: (responses?.introName ?? '').trim() || '익명',
     age: Number.parseInt(responses?.introAge ?? '0', 10) || 0,
+    gender: (responses?.introGender ?? '').trim() || null,
   };
 
   const connection = await dbPool.getConnection();
@@ -54,7 +55,7 @@ export async function buildIsolationResult({ sessionId, submittedAt, totalScenes
     const textAnswers = [];
 
     for (const [interactionKey, rawValue] of Object.entries(responses ?? {})) {
-      if (interactionKey === 'introName' || interactionKey === 'introAge') {
+      if (interactionKey === 'introName' || interactionKey === 'introAge' || interactionKey === 'introGender') {
         continue;
       }
 
