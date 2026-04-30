@@ -1,109 +1,141 @@
-const OPTION_SCORES = {
-  바로: 1,
-  확인: 2,
-  인사: 1,
-  심호흡: 1,
-  끄덕: 2,
-  대기: 2,
-  문자: 2,
-  서성: 3,
-  회피: 4,
-  불안: 4,
-  충동: 3,
-  못: 4,
-  미룸: 4,
-  종료: 5,
-  읽지: 5,
-};
+import { dbPool } from '../config/db.js';
+import {
+  findSceneAnswerRows,
+  insertParticipant,
+  insertUserResponse,
+  updateParticipantResult,
+} from '../repositories/isolationRepository.js';
+import { buildResultAnalysis } from './llmService.js';
 
-function scoreByValue(value) {
-  if (!value) {
-    return 0;
-  }
-
-  const found = Object.entries(OPTION_SCORES).find(([keyword]) => value.includes(keyword));
-  if (!found) {
-    return 2;
-  }
-  return found[1];
-}
-
-function scoreText(text) {
-  if (!text) {
-    return 0;
-  }
-  if (text.length > 35) {
-    return 1;
-  }
-  if (text.length > 18) {
-    return 2;
-  }
-  return 3;
-}
-
-function toRiskLevel(total) {
-  if (total <= 16) {
+function getRiskLevel(totalScore) {
+  if (totalScore <= 16) {
     return '낮음';
   }
-  if (total <= 28) {
+  if (totalScore <= 28) {
     return '중간';
   }
   return '높음';
 }
 
-function buildSummary(score) {
-  if (score.riskLevel === '낮음') {
-    return '사회적 접촉 회피 경향이 낮고 일상 대처가 유지되고 있습니다.';
-  }
-  if (score.riskLevel === '중간') {
-    return '사회적 회피와 피로 신호가 함께 나타나며 주기적 모니터링이 필요합니다.';
-  }
-  return '고립/은둔 위험 신호가 뚜렷하여 추가 상담 및 연계 개입이 필요합니다.';
-}
+export async function buildIsolationResult({ sessionId, submittedAt, totalScenes, responses }) {
+  const participant = {
+    userName: (responses?.introName ?? '').trim() || '익명',
+    age: Number.parseInt(responses?.introAge ?? '0', 10) || 0,
+  };
 
-function analyzeResponses(responses) {
-  let optionScore = 0;
-  let textScore = 0;
+  const connection = await dbPool.getConnection();
+  try {
+    await connection.beginTransaction();
 
-  Object.entries(responses).forEach(([key, value]) => {
-    if (typeof value !== 'string') {
-      return;
+    const sceneRows = await findSceneAnswerRows(connection);
+    const sceneByKey = new Map();
+    const optionBySceneAndText = new Map();
+
+    sceneRows.forEach((row) => {
+      if (row.interaction_key) {
+        sceneByKey.set(row.interaction_key, {
+          sceneId: row.scene_id,
+          sceneCode: row.scene_code,
+          interactionType: row.interaction_type,
+        });
+      }
+
+      if (row.option_id && row.option_text) {
+        optionBySceneAndText.set(`${row.scene_id}::${row.option_text.trim()}`, {
+          optionId: row.option_id,
+          score: Number(row.score ?? 0),
+        });
+      }
+    });
+
+    const participantId = await insertParticipant(connection, participant);
+    let totalScore = 0;
+    const choiceAnswers = [];
+    const textAnswers = [];
+
+    for (const [interactionKey, rawValue] of Object.entries(responses ?? {})) {
+      if (interactionKey === 'introName' || interactionKey === 'introAge') {
+        continue;
+      }
+
+      if (typeof rawValue !== 'string') {
+        continue;
+      }
+
+      const value = rawValue.trim();
+      if (!value) {
+        continue;
+      }
+
+      const sceneInfo = sceneByKey.get(interactionKey);
+      if (!sceneInfo) {
+        continue;
+      }
+
+      if (sceneInfo.interactionType === 'choice') {
+        const optionInfo = optionBySceneAndText.get(`${sceneInfo.sceneId}::${value}`);
+        const optionId = optionInfo?.optionId ?? null;
+        const optionScore = optionInfo?.score ?? 0;
+        totalScore += optionScore;
+        choiceAnswers.push({
+          sceneCode: sceneInfo.sceneCode,
+          interactionKey,
+          selectedText: value,
+          score: optionScore,
+        });
+        await insertUserResponse(connection, {
+          participantId,
+          sceneId: sceneInfo.sceneId,
+          optionId,
+          answerText: null,
+        });
+        continue;
+      }
+
+      textAnswers.push({
+        sceneCode: sceneInfo.sceneCode,
+        interactionKey,
+        answerText: value,
+      });
+      await insertUserResponse(connection, {
+        participantId,
+        sceneId: sceneInfo.sceneId,
+        optionId: null,
+        answerText: value,
+      });
     }
 
-    if (key.toLowerCase().includes('summary') || key.toLowerCase().includes('mood')) {
-      textScore += scoreText(value.trim());
-      return;
-    }
+    const resultAnalysis = await buildResultAnalysis({
+      participant,
+      totalScore,
+      choiceAnswers,
+      textAnswers,
+    });
 
-    optionScore += scoreByValue(value.trim());
-  });
+    await updateParticipantResult(connection, {
+      participantId,
+      totalScore,
+      resultAnalysis,
+    });
 
-  const total = optionScore + textScore;
-  return {
-    total,
-    optionScore,
-    textScore,
-    riskLevel: toRiskLevel(total),
-  };
-}
+    await connection.commit();
 
-export function buildIsolationResult({ sessionId, submittedAt, totalScenes, responses }) {
-  const score = analyzeResponses(responses);
-  const summary = buildSummary(score);
-  const ragPayload = {
-    sourceScale: 'K-GILS',
-    instruction: 'OpenAI 연결 전 단계: 아래 응답/점수/요약을 기반으로 상담 가이드 문서를 검색하고 피드백 생성',
-    score,
-    responses,
-  };
-
-  return {
-    ok: true,
-    sessionId,
-    submittedAt,
-    totalScenes,
-    score,
-    summary,
-    ragPayload,
-  };
+    return {
+      ok: true,
+      sessionId,
+      submittedAt,
+      totalScenes,
+      participantId,
+      score: {
+        total: totalScore,
+        riskLevel: getRiskLevel(totalScore),
+      },
+      summary: resultAnalysis,
+    };
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
 }

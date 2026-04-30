@@ -1,6 +1,6 @@
 import { buildIsolationResult } from '../services/isolationService.js';
 
-export function analyzeIsolation(req, res) {
+export async function analyzeIsolation(req, res) {
   const { sessionId, submittedAt, totalScenes, responses } = req.body || {};
 
   if (!sessionId || !responses || typeof responses !== 'object') {
@@ -10,12 +10,19 @@ export function analyzeIsolation(req, res) {
     return;
   }
 
-  const result = buildIsolationResult({
-    sessionId,
-    submittedAt,
-    totalScenes,
-    responses,
-  });
-
-  res.json(result);
+  try {
+    const result = await buildIsolationResult({
+      sessionId,
+      submittedAt,
+      totalScenes,
+      responses,
+    });
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      message: '응답 저장/분석 처리 중 오류가 발생했습니다.',
+      error: error.message,
+    });
+  }
 }

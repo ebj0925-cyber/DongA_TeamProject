@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './branch.css';
 
 const TOTAL_MS = 3000;
@@ -19,6 +20,7 @@ function getProgress(ms) {
 }
 
 export default function Branch() {
+  const navigate = useNavigate();
   const videoRef = useRef(null);
   const pausedForChoiceRef = useRef(false);
 
@@ -280,6 +282,7 @@ export default function Branch() {
 
       const data = await response.json();
       setResult(data);
+      navigate('/isolation/step2');
     } catch (error) {
       setErrorMessage('분석 전송 중 문제가 발생했습니다. 서버를 확인해 주세요.');
     } finally {
