@@ -30,16 +30,16 @@
 
 ## 🖥️ 기능 구현 PPT
 
-| <img src="./img/ppt/1.png" width="500"> | <img src="./img/ppt/2.png" width="500"> |
+| <img src="public/img/ppt/1.png" width="500"> | <img src="public/img/ppt/2.png" width="500"> |
 | :---: | :---: |
-| <img src="./img/ppt/3.png" width="500"> | <img src="./img/ppt/4.png" width="500"> |
-| <img src="./img/ppt/5.png" width="500"> | <img src="./img/ppt/6.png" width="500"> |
-| <img src="./img/ppt/7.png" width="500"> | <img src="./img/ppt/8.png" width="500"> |
-| <img src="./img/ppt/9.png" width="500"> | <img src="./img/ppt/10.png" width="500"> |
-| <img src="./img/ppt/11.png" width="500"> | <img src="./img/ppt/12.png" width="500"> |
-| <img src="./img/ppt/13.png" width="500"> | <img src="./img/ppt/14.png" width="500"> |
-| <img src="./img/ppt/15.png" width="500"> | <img src="./img/ppt/16.png" width="500"> |
-| <img src="./img/ppt/17.png" width="500"> | <img src="./img/ppt/18.png" width="500"> |
+| <img src="public/img/ppt/3.png" width="500"> | <img src="public/img/ppt/4.png" width="500"> |
+| <img src="public/img/ppt/5.png" width="500"> | <img src="public/img/ppt/6.png" width="500"> |
+| <img src="public/img/ppt/7.png" width="500"> | <img src="public/img/ppt/8.png" width="500"> |
+| <img src="public/img/ppt/9.png" width="500"> | <img src="public/img/ppt/10.png" width="500"> |
+| <img src="public/img/ppt/11.png" width="500"> | <img src="public/img/ppt/12.png" width="500"> |
+| <img src="public/img/ppt/13.png" width="500"> | <img src="public/img/ppt/14.png" width="500"> |
+| <img src="public/img/ppt/15.png" width="500"> | <img src="public/img/ppt/16.png" width="500"> |
+| <img src="public/img/ppt/17.png" width="500"> | <img src="public/img/ppt/18.png" width="500"> |
 
 ## ✨ 주요 기능
 
