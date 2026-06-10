@@ -87,7 +87,9 @@ dongaProject/
 - 객관식 선택지는 점수로 합산
 - 주관식 답변은 DB에 저장 후 AI 분석 및 감정 분류에 활용
 - 참여자 정보와 응답 데이터를 MySQL에 저장
-
+<br>
+<img width="1280" height="720" alt="시연1" src="img/gif/00001.gif" />
+<br>
 <br>
 
 ### AI 기반 결과 분석
@@ -95,7 +97,9 @@ dongaProject/
 - 고립 척도 기준 문맥을 프롬프트에 포함하는 Prompt-based RAG 구조 사용
 - 결과 분석은 `survey_participants.result_analysis`에 저장
 - 주관식 답변은 `answer_text_feeling`으로 긍정(G), 부정(B), 중립(S) 분류
-
+<br>
+<img width="1280" height="720" alt="시연4" src="img/gif/00004.gif" />
+<br>
 <br>
 
 ### 쿠키 기반 개인 결과 조회
@@ -112,7 +116,9 @@ dongaProject/
 - 데스크톱에서는 마우스 시선 이동
 - 모바일에서는 자이로스코프 기반 화면 반응
 - BGM, 영상, 스크롤 이벤트를 결합한 몰입형 화면 구성
-
+<br>
+<img width="1280" height="720" alt="시연2" src="img/gif/00002.gif" />
+<br>
 <br>
 
 ### Step3. 결과 / 통계 / 채팅 화면
@@ -120,7 +126,9 @@ dongaProject/
 - 정보, 채팅창, 설문결과, 통계 메뉴 구성
 - 메뉴 클릭 시 Full-screen Modal 방식으로 콘텐츠 제공
 - 설문 결과는 개인화된 질문/답변 형태로 출력
-
+<br>
+<img width="1280" height="720" alt="시연3" src="img/gif/00003.gif" />
+<br>
 <br>
 
 ### 전체 통계 API
@@ -135,7 +143,9 @@ dongaProject/
 - 전체 참여자 수를 기반으로 참여자 1명당 입자 1개 생성
 - 위에서 아래로 떨어지는 물리 기반 애니메이션 구현
 - 통계 데이터를 숫자가 아닌 시각적 참여감으로 표현
-
+<br>
+<img width="1280" height="720" alt="시연6" src="img/gif/00006.gif" />
+<br>
 <br>
 
 ### 따뜻한 한마디 채팅
@@ -143,7 +153,9 @@ dongaProject/
 - 내 메시지는 오른쪽, 타인 메시지는 왼쪽 정렬
 - 내가 쓴 메시지 보기 기능 제공
 - PASS 상태 메시지만 화면에 노출
-
+<br>
+<img width="1280" height="720" alt="시연4" src="img/gif/00004.gif" />
+<br>
 <br>
 
 ### Trie + GPT 기반 채팅 검열
