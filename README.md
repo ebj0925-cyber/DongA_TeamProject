@@ -1,4 +1,4 @@
-## 🌊 고립 그리고 연결 | PROJECT CONTACT ##
+## 고립 그리고 연결 | PROJECT CONTACT ##
 
 > 팀 프로젝트 | React + Node.js + MySQL + OpenAI GPT + 3D 인터랙션 + 통계 시각화 + 채팅 검열 시스템
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 📌 프로젝트 개요
+## 프로젝트 개요
 
 사회적 고립과 관계 회복을 주제로 한 AI 기반 인터랙티브 설문/분석 플랫폼입니다.  
 사용자는 선택형 내러티브 설문에 참여하고, 응답 데이터는 MySQL DB에 저장됩니다. 이후 GPT 기반 분석을 통해 개인 결과 리포트를 제공하며, 전체 참여자의 응답은 통계 시각화, 채팅, 3D 인터랙션 콘텐츠로 확장됩니다.
@@ -15,7 +15,7 @@
 
 ---
 
-## 🛠️ 기술 스택
+## 기술 스택
 
 | 구분 | 기술 | 역할 |
 |---|---|---|
@@ -36,7 +36,7 @@
 
 ---
 
-## 📁 프로젝트 구조
+## 프로젝트 구조
 
 ```bash
 dongaProject/
@@ -82,7 +82,7 @@ dongaProject/
 
 ## ✨ 주요 기능
 
-### 🧩 Step1. 인터랙티브 설문
+### Step1. 인터랙티브 설문
 - 일반 폼이 아닌 선택형 내러티브 구조로 설문 진행
 - 객관식 선택지는 점수로 합산
 - 주관식 답변은 DB에 저장 후 AI 분석 및 감정 분류에 활용
@@ -90,7 +90,7 @@ dongaProject/
 
 <br>
 
-### 🤖 AI 기반 결과 분석
+### AI 기반 결과 분석
 - GPT-4o mini를 활용해 개인 결과 리포트 생성
 - 고립 척도 기준 문맥을 프롬프트에 포함하는 Prompt-based RAG 구조 사용
 - 결과 분석은 `survey_participants.result_analysis`에 저장
@@ -98,7 +98,7 @@ dongaProject/
 
 <br>
 
-### 🔐 쿠키 기반 개인 결과 조회
+### 쿠키 기반 개인 결과 조회
 - 로그인 없이 `isolation_user_info` 쿠키로 사용자 식별
 - 쿠키의 participant id를 기준으로 개인 설문 결과 조회
 - `survey_participants`, `user_responses`, `scenes_metadata`, `scene_options` 조인
@@ -106,7 +106,7 @@ dongaProject/
 
 <br>
 
-### 🌊 Step2. 3D 심해 인터랙션
+### Step2. 3D 심해 인터랙션
 - Three.js, React Three Fiber, Drei 기반 3D 시각화
 - 고립감을 심해 공간으로 표현
 - 데스크톱에서는 마우스 시선 이동
@@ -115,7 +115,7 @@ dongaProject/
 
 <br>
 
-### 🏙️ Step3. 결과 / 통계 / 채팅 화면
+### Step3. 결과 / 통계 / 채팅 화면
 - 모바일 중심 세로형 UI
 - 정보, 채팅창, 설문결과, 통계 메뉴 구성
 - 메뉴 클릭 시 Full-screen Modal 방식으로 콘텐츠 제공
@@ -123,7 +123,7 @@ dongaProject/
 
 <br>
 
-### 📊 전체 통계 API
+### 전체 통계 API
 - 연령대, 성별, Scene, 응답 기준으로 통계 집계
 - 객관식은 `option_id` 기준 집계
 - 주관식은 `answer_text_feeling` 기준으로 긍정/부정/중립 비율 계산
@@ -131,14 +131,14 @@ dongaProject/
 
 <br>
 
-### ⚪ Matter.js 입자 시각화
+### Matter.js 입자 시각화
 - 전체 참여자 수를 기반으로 참여자 1명당 입자 1개 생성
 - 위에서 아래로 떨어지는 물리 기반 애니메이션 구현
 - 통계 데이터를 숫자가 아닌 시각적 참여감으로 표현
 
 <br>
 
-### 💬 따뜻한 한마디 채팅
+### 따뜻한 한마디 채팅
 - 사용자가 익명 응원 메시지를 등록
 - 내 메시지는 오른쪽, 타인 메시지는 왼쪽 정렬
 - 내가 쓴 메시지 보기 기능 제공
@@ -146,7 +146,7 @@ dongaProject/
 
 <br>
 
-### 🛡️ Trie + GPT 기반 채팅 검열
+### Trie + GPT 기반 채팅 검열
 - 메시지 등록 시 `cheer_messages`에 PENDING 저장
 - fastscanner Trie로 금칙어 1차 필터링
 - 통과한 메시지만 GPT-4o mini로 문맥 검열
@@ -157,7 +157,7 @@ dongaProject/
 
 ---
 
-## 🗄️ DB 구조
+## DB 구조
 
 ```sql
 -- 참여자 정보
@@ -227,7 +227,7 @@ CREATE TABLE content_b_db (
 
 ---
 
-## 🔌 API 엔드포인트
+## API 엔드포인트
 
 | Method | Endpoint | 설명 |
 |---|---|---|
@@ -245,7 +245,7 @@ CREATE TABLE content_b_db (
 
 ---
 
-## 📊 시스템 아키텍처
+## 시스템 아키텍처
 
 ```text
 [Client - React/Vite]
@@ -279,7 +279,7 @@ CREATE TABLE content_b_db (
 
 ---
 
-## 📎 프로젝트 SLIDE
+## 프로젝트 SLIDE
 
 <img width="2560" height="1440" alt="슬라이드1" src="public/img/ppt/1.png" />
 <br>
@@ -341,7 +341,7 @@ CREATE TABLE content_b_db (
 
 ---
 
-## 🚀 개선사항
+## 개선사항
 
 <b>1. 검색형 RAG 구조 고도화</b>  
 현재는 참고 문맥을 프롬프트에 직접 주입하는 Prompt-based RAG 방식으로 구현했습니다. 추후 `text-embedding-3-small`과 Vector DB를 활용하면 문서 검색 기반 RAG로 확장할 수 있습니다.
