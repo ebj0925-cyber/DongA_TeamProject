@@ -88,7 +88,7 @@ dongaProject/
 - 주관식 답변은 DB에 저장 후 AI 분석 및 감정 분류에 활용
 - 참여자 정보와 응답 데이터를 MySQL에 저장
 <br>
-<img width="1280" height="720" alt="시연1" src="img/gif/00001.gif" />
+<img width="1280" height="720" alt="시연1" src="public/img/gif/00001.gif" />
 <br>
 <br>
 
@@ -98,7 +98,7 @@ dongaProject/
 - 결과 분석은 `survey_participants.result_analysis`에 저장
 - 주관식 답변은 `answer_text_feeling`으로 긍정(G), 부정(B), 중립(S) 분류
 <br>
-<img width="1280" height="720" alt="시연4" src="img/gif/00004.gif" />
+<img width="1280" height="720" alt="시연4" src="public/img/gif/00004.gif" />
 <br>
 <br>
 
@@ -117,7 +117,7 @@ dongaProject/
 - 모바일에서는 자이로스코프 기반 화면 반응
 - BGM, 영상, 스크롤 이벤트를 결합한 몰입형 화면 구성
 <br>
-<img width="1280" height="720" alt="시연2" src="img/gif/00002.gif" />
+<img width="1280" height="720" alt="시연2" src="public/img/gif/00002.gif" />
 <br>
 <br>
 
@@ -127,7 +127,7 @@ dongaProject/
 - 메뉴 클릭 시 Full-screen Modal 방식으로 콘텐츠 제공
 - 설문 결과는 개인화된 질문/답변 형태로 출력
 <br>
-<img width="1280" height="720" alt="시연3" src="img/gif/00003.gif" />
+<img width="1280" height="720" alt="시연3" src="public/img/gif/00003.gif" />
 <br>
 <br>
 
@@ -144,7 +144,7 @@ dongaProject/
 - 위에서 아래로 떨어지는 물리 기반 애니메이션 구현
 - 통계 데이터를 숫자가 아닌 시각적 참여감으로 표현
 <br>
-<img width="1280" height="720" alt="시연6" src="img/gif/00006.gif" />
+<img width="1280" height="720" alt="시연6" src="public/img/gif/00006.gif" />
 <br>
 <br>
 
@@ -154,7 +154,7 @@ dongaProject/
 - 내가 쓴 메시지 보기 기능 제공
 - PASS 상태 메시지만 화면에 노출
 <br>
-<img width="1280" height="720" alt="시연4" src="img/gif/00004.gif" />
+<img width="1280" height="720" alt="시연4" src="public/img/gif/00004.gif" />
 <br>
 <br>
 
