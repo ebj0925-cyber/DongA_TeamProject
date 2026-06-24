@@ -32,6 +32,21 @@
 | 팀 작업일지 PDF | [PROJECT_CONTACT_Team_WorkLog.pdf](./work-log/PROJECT_CONTACT_Team_WorkLog.pdf) |
 | C구간 자료조사 | [SectionC_Articles_Institutions_Papers.docx](./research/SectionC_Articles_Institutions_Papers.docx) |
 | 지원기관 정리 이미지 | [SectionC_Support_Institutions.png](./research/SectionC_Support_Institutions.png) |
+| 수행계획서 캡처 | [assets/screenshots](./assets/screenshots/) |
+
+---
+
+## 작업 캡처
+
+수행계획서에 포함된 작업 캡처를 추출해 정리했습니다.
+
+| B구간 심해 인터랙션 | C구간 도시 메뉴 |
+|---|---|
+| <img src="./assets/screenshots/plan_capture_02.jpeg" width="320" alt="B구간 심해 인터랙션 화면"> | <img src="./assets/screenshots/plan_capture_08.jpeg" width="320" alt="C구간 도시 메뉴 화면"> |
+
+| 채팅/검열 데이터 확인 | 개인 결과 화면 |
+|---|---|
+| <img src="./assets/screenshots/plan_capture_04.png" width="320" alt="채팅 검열 데이터 확인 화면"> | <img src="./assets/screenshots/plan_capture_11.png" width="320" alt="개인 결과 화면"> |
 
 ---
 
@@ -75,6 +90,9 @@ JoEunjung_TeamProject/
 |   +-- JoEunjung_Project_Plan.pdf
 |   +-- PROJECT_CONTACT_Team_WorkLog_0512.docx
 |   +-- PROJECT_CONTACT_Team_WorkLog.pdf
++-- assets/
+|   +-- screenshots/
+|       +-- plan_capture_01.png ... plan_capture_11.png
 +-- research/
 |   +-- SectionC_Articles_Institutions_Papers.docx
 |   +-- SectionC_Support_Institutions.png
