@@ -27,8 +27,11 @@ JoEunjung_TeamProject/
 |   +-- JoEunjung_ProjectContact_Portfolio.pptx
 +-- work-log/
 |   +-- JoEunjung_Project_WorkLog.docx
+|   +-- JoEunjung_Project_WorkLog.pdf
 |   +-- JoEunjung_Project_Plan.docx
+|   +-- JoEunjung_Project_Plan.pdf
 |   +-- PROJECT_CONTACT_Team_WorkLog_0512.docx
+|   +-- PROJECT_CONTACT_Team_WorkLog.pdf
 +-- research/
 |   +-- SectionC_Articles_Institutions_Papers.docx
 |   +-- SectionC_Support_Institutions.png
@@ -41,19 +44,14 @@ JoEunjung_TeamProject/
 | Category | File | Purpose |
 |---|---|---|
 | Portfolio | `portfolio/JoEunjung_ProjectContact_Portfolio.pptx` | Personal portfolio deck |
-| Work log | `work-log/JoEunjung_Project_WorkLog.docx` | Personal work log |
-| Work plan | `work-log/JoEunjung_Project_Plan.docx` | Personal project task plan |
-| Team log | `work-log/PROJECT_CONTACT_Team_WorkLog_0512.docx` | Team project work log |
+| Work log | `work-log/JoEunjung_Project_WorkLog.pdf` / `work-log/JoEunjung_Project_WorkLog.docx` | Personal work log |
+| Work plan | `work-log/JoEunjung_Project_Plan.pdf` / `work-log/JoEunjung_Project_Plan.docx` | Personal project task plan |
+| Team log | `work-log/PROJECT_CONTACT_Team_WorkLog.pdf` / `work-log/PROJECT_CONTACT_Team_WorkLog_0512.docx` | Team project work log |
 | Research | `research/SectionC_Articles_Institutions_Papers.docx` | C section source research |
 | Research visual | `research/SectionC_Support_Institutions.png` | Support institution summary image |
 | Notion | `notion/Notion_Link.md` | Notion reference link |
 
-## PDF Recommendation
+## Portfolio Submission Note
 
-For portfolio submission, it is recommended to export these files as PDF as well:
-
-- `JoEunjung_ProjectContact_Portfolio.pdf`
-- `JoEunjung_Project_WorkLog.pdf`
-- `JoEunjung_Project_Plan.pdf`
-
-The original PPTX/DOCX files are included here so they can still be edited later.
+PDF versions of the work log and project plan are included for easy viewing.
+The original PPTX/DOCX files are also included so they can still be edited later.

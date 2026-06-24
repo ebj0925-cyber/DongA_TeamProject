@@ -378,4 +378,5 @@ Personal contribution files are organized in [`JoEunjung_TeamProject`](./JoEunju
 - Live Demo: https://projectcontact2026.onrender.com/
 - Notion: https://app.notion.com/p/C-_-337439bdd4f580c7a8f3d10c81a25347?source=copy_link
 - Portfolio: `JoEunjung_TeamProject/portfolio/JoEunjung_ProjectContact_Portfolio.pptx`
-- Work Log: `JoEunjung_TeamProject/work-log/JoEunjung_Project_WorkLog.docx`
+- Work Log: `JoEunjung_TeamProject/work-log/JoEunjung_Project_WorkLog.pdf`
+- Project Plan: `JoEunjung_TeamProject/work-log/JoEunjung_Project_Plan.pdf`
