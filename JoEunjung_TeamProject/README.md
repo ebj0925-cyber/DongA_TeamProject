@@ -48,6 +48,8 @@
 
 최신 개인 포트폴리오 PPTX와 PDF를 함께 업로드했고, 주요 슬라이드는 이미지로 바로 확인할 수 있도록 정리했습니다.
 
+[전체 슬라이드 이미지 보기](#전체-슬라이드-이미지-보기)
+
 | 표지 | 개인 기여 요약 |
 |---|---|
 | <img src="./img/slide_01.png" width="420" alt="PROJECT CONTACT 포트폴리오 표지"> | <img src="./img/slide_12.png" width="420" alt="조은정 개인 기여 요약 슬라이드"> |
@@ -60,33 +62,17 @@
 |---|---|
 | <img src="./img/slide_15.png" width="420" alt="통계 데이터 시각화 코드 설명 슬라이드"> | <img src="./img/slide_16.png" width="420" alt="자료조사 화면 반영 슬라이드"> |
 
-<details>
-<summary>전체 슬라이드 이미지 보기</summary>
-
-| 01 | 02 | 03 |
-|---|---|---|
-| <img src="./img/slide_01.png" width="260" alt="슬라이드 1"> | <img src="./img/slide_02.png" width="260" alt="슬라이드 2"> | <img src="./img/slide_03.png" width="260" alt="슬라이드 3"> |
-| <img src="./img/slide_04.png" width="260" alt="슬라이드 4"> | <img src="./img/slide_05.png" width="260" alt="슬라이드 5"> | <img src="./img/slide_06.png" width="260" alt="슬라이드 6"> |
-| <img src="./img/slide_07.png" width="260" alt="슬라이드 7"> | <img src="./img/slide_08.png" width="260" alt="슬라이드 8"> | <img src="./img/slide_09.png" width="260" alt="슬라이드 9"> |
-| <img src="./img/slide_10.png" width="260" alt="슬라이드 10"> | <img src="./img/slide_11.png" width="260" alt="슬라이드 11"> | <img src="./img/slide_12.png" width="260" alt="슬라이드 12"> |
-| <img src="./img/slide_13.png" width="260" alt="슬라이드 13"> | <img src="./img/slide_14.png" width="260" alt="슬라이드 14"> | <img src="./img/slide_15.png" width="260" alt="슬라이드 15"> |
-| <img src="./img/slide_16.png" width="260" alt="슬라이드 16"> | <img src="./img/slide_17.png" width="260" alt="슬라이드 17"> | <img src="./img/slide_18.png" width="260" alt="슬라이드 18"> |
-
-</details>
-
 ---
 
 ## 작업 캡처
 
-수행계획서에 포함된 작업 캡처를 추출해 정리했습니다.
-
-| B구간 심해 인터랙션 | C구간 도시 메뉴 |
+| C구간 응답 통계 시각화 | C구간 도시 메뉴 |
 |---|---|
-| <img src="./assets/screenshots/plan_capture_02.jpeg" width="320" alt="B구간 심해 인터랙션 화면"> | <img src="./assets/screenshots/plan_capture_08.jpeg" width="320" alt="C구간 도시 메뉴 화면"> |
+| <img src="./assets/screenshots/plan_capture_02.jpeg" width="320" alt="C구간 응답 통계 시각화 화면"> | <img src="./assets/screenshots/plan_capture_08.jpeg" width="320" alt="C구간 도시 메뉴 화면"> |
 
-| 채팅/검열 데이터 확인 | 개인 결과 화면 |
+| C구간 응원 메시지 DB | C구간 개인 설문 리포트 |
 |---|---|
-| <img src="./assets/screenshots/plan_capture_04.png" width="320" alt="채팅 검열 데이터 확인 화면"> | <img src="./assets/screenshots/plan_capture_11.png" width="320" alt="개인 결과 화면"> |
+| <img src="./assets/screenshots/plan_capture_04.png" width="320" alt="C구간 응원 메시지 DB 화면"> | <img src="./assets/screenshots/plan_capture_11.png" width="320" alt="C구간 개인 설문 리포트 화면"> |
 
 ---
 
@@ -153,3 +139,16 @@ JoEunjung_TeamProject/
 추후 수정이 가능하도록 PPTX, DOCX 원본 파일도 함께 보관했습니다.
 
 개인 포트폴리오는 PPTX 원본, PDF 제출본, README 미리보기용 슬라이드 이미지 파일을 함께 포함했습니다.
+
+---
+
+## 전체 슬라이드 이미지 보기
+
+| 01 | 02 | 03 |
+|---|---|---|
+| <img src="./img/slide_01.png" width="260" alt="슬라이드 1"> | <img src="./img/slide_02.png" width="260" alt="슬라이드 2"> | <img src="./img/slide_03.png" width="260" alt="슬라이드 3"> |
+| <img src="./img/slide_04.png" width="260" alt="슬라이드 4"> | <img src="./img/slide_05.png" width="260" alt="슬라이드 5"> | <img src="./img/slide_06.png" width="260" alt="슬라이드 6"> |
+| <img src="./img/slide_07.png" width="260" alt="슬라이드 7"> | <img src="./img/slide_08.png" width="260" alt="슬라이드 8"> | <img src="./img/slide_09.png" width="260" alt="슬라이드 9"> |
+| <img src="./img/slide_10.png" width="260" alt="슬라이드 10"> | <img src="./img/slide_11.png" width="260" alt="슬라이드 11"> | <img src="./img/slide_12.png" width="260" alt="슬라이드 12"> |
+| <img src="./img/slide_13.png" width="260" alt="슬라이드 13"> | <img src="./img/slide_14.png" width="260" alt="슬라이드 14"> | <img src="./img/slide_15.png" width="260" alt="슬라이드 15"> |
+| <img src="./img/slide_16.png" width="260" alt="슬라이드 16"> | <img src="./img/slide_17.png" width="260" alt="슬라이드 17"> | <img src="./img/slide_18.png" width="260" alt="슬라이드 18"> |
