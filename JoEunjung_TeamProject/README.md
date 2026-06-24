@@ -66,13 +66,13 @@
 
 ## 작업 캡처
 
-| C구간 응답 통계 시각화 | C구간 도시 메뉴 |
+| C구간 도시 메뉴 | C구간 응원 메시지 DB |
 |---|---|
-| <img src="./assets/screenshots/plan_capture_02.jpeg" width="320" alt="C구간 응답 통계 시각화 화면"> | <img src="./assets/screenshots/plan_capture_08.jpeg" width="320" alt="C구간 도시 메뉴 화면"> |
+| <img src="./assets/screenshots/plan_capture_08.jpeg" width="320" alt="C구간 도시 메뉴 화면"> | <img src="./assets/screenshots/plan_capture_04.png" width="320" alt="C구간 응원 메시지 DB 화면"> |
 
-| C구간 응원 메시지 DB | C구간 개인 설문 리포트 |
+| C구간 응답 통계 시각화 | C구간 개인 설문 리포트 |
 |---|---|
-| <img src="./assets/screenshots/plan_capture_04.png" width="320" alt="C구간 응원 메시지 DB 화면"> | <img src="./assets/screenshots/plan_capture_11.png" width="320" alt="C구간 개인 설문 리포트 화면"> |
+| <img src="./assets/screenshots/plan_capture_02.jpeg" width="320" alt="C구간 응답 통계 시각화 화면"> | <img src="./assets/screenshots/plan_capture_11.png" width="320" alt="C구간 개인 설문 리포트 화면"> |
 
 ---
 
