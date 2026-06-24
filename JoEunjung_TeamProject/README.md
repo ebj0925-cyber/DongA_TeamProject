@@ -1,6 +1,7 @@
 # 조은정 팀 프로젝트 자료
 
 > 동아일보 팀 프로젝트 **PROJECT CONTACT**에서 조은정 개인 기여 자료를 모아 정리한 포트폴리오용 폴더입니다.
+> C구간 콘텐츠 구현, 자료조사, 응원 메시지/통계 화면 정리, 개인 포트폴리오 산출물을 함께 정리했습니다.
 
 ## 주요 링크
 
@@ -10,6 +11,9 @@
   </a>
   <a href="https://app.notion.com/p/C-_-337439bdd4f580c7a8f3d10c81a25347?source=copy_link">
     <img height="38" src="https://img.shields.io/badge/C구간_작업-Notion-111111?style=for-the-badge" alt="C구간 작업 Notion">
+  </a>
+  <a href="./portfolio/JoEunjung_ProjectContact_Portfolio.pdf">
+    <img height="38" src="https://img.shields.io/badge/PORTFOLIO-PDF-c0392b?style=for-the-badge" alt="포트폴리오 PDF">
   </a>
 </p>
 
@@ -117,6 +121,8 @@ projectcontact2026-main/
 ---
 
 ## 작업 캡처
+
+C구간의 메뉴, 메시지 DB, 응답 통계, 개인 리포트 화면을 중심으로 정리했습니다.
 
 | C구간 도시 메뉴 | C구간 응원 메시지 DB |
 |---|---|
