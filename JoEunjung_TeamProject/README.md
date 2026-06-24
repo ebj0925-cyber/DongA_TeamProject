@@ -2,10 +2,12 @@
 
 > 동아일보 팀 프로젝트 **PROJECT CONTACT**에서 조은정 개인 기여 자료를 모아 정리한 포트폴리오용 폴더입니다.
 
-<p>
-  <a href="https://projectcontact2026.onrender.com/"><img src="https://img.shields.io/badge/Live_Demo-PROJECT_CONTACT-1f3864?style=for-the-badge" alt="Live Demo"></a>
-  <a href="https://app.notion.com/p/C-_-337439bdd4f580c7a8f3d10c81a25347?source=copy_link"><img src="https://img.shields.io/badge/Notion-C_section-111111?style=for-the-badge" alt="Notion"></a>
-</p>
+## 주요 링크
+
+| 바로가기 | 설명 |
+|---|---|
+| [PROJECT CONTACT 라이브 사이트](https://projectcontact2026.onrender.com/) | 실제 프로젝트 결과물을 확인할 수 있는 배포 사이트 |
+| [C구간 작업 Notion](https://app.notion.com/p/C-_-337439bdd4f580c7a8f3d10c81a25347?source=copy_link) | C구간 자료조사와 작업 내용을 정리한 Notion 페이지 |
 
 ---
 
@@ -17,8 +19,6 @@
 | 주제 | 고립과 관계 단절을 체험하고 회복 가능성을 탐색하는 인터랙티브 콘텐츠 |
 | 팀 프로젝트 | DongA Team Project |
 | 개인 담당 | C구간 자료조사, 작업일지 작성, 문서화, 발표/포트폴리오 정리 |
-| 라이브 사이트 | [PROJECT CONTACT 바로가기](https://projectcontact2026.onrender.com/) |
-| Notion | [C구간 작업 Notion](https://app.notion.com/p/C-_-337439bdd4f580c7a8f3d10c81a25347?source=copy_link) |
 
 ---
 
