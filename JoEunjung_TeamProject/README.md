@@ -33,12 +33,46 @@
 | 자료 | 파일 |
 |---|---|
 | 개인 포트폴리오 | [JoEunjung_ProjectContact_Portfolio.pptx](./portfolio/JoEunjung_ProjectContact_Portfolio.pptx) |
+| 개인 포트폴리오 PDF | [JoEunjung_ProjectContact_Portfolio.pdf](./portfolio/JoEunjung_ProjectContact_Portfolio.pdf) |
 | 개인 작업일지 PDF | [JoEunjung_Project_WorkLog.pdf](./work-log/JoEunjung_Project_WorkLog.pdf) |
 | 수행 계획서 PDF | [JoEunjung_Project_Plan.pdf](./work-log/JoEunjung_Project_Plan.pdf) |
 | 팀 작업일지 PDF | [PROJECT_CONTACT_Team_WorkLog.pdf](./work-log/PROJECT_CONTACT_Team_WorkLog.pdf) |
 | C구간 자료조사 | [SectionC_Articles_Institutions_Papers.docx](./research/SectionC_Articles_Institutions_Papers.docx) |
 | 지원기관 정리 이미지 | [SectionC_Support_Institutions.png](./research/SectionC_Support_Institutions.png) |
 | 수행계획서 캡처 | [assets/screenshots](./assets/screenshots/) |
+| 포트폴리오 이미지 | [img](./img/) |
+
+---
+
+## 포트폴리오 미리보기
+
+최신 개인 포트폴리오 PPTX와 PDF를 함께 업로드했고, 주요 슬라이드는 이미지로 바로 확인할 수 있도록 정리했습니다.
+
+| 표지 | 개인 기여 요약 |
+|---|---|
+| <img src="./img/slide_01.png" width="420" alt="PROJECT CONTACT 포트폴리오 표지"> | <img src="./img/slide_12.png" width="420" alt="조은정 개인 기여 요약 슬라이드"> |
+
+| C콘텐츠 구현 | 채팅 코드 설명 |
+|---|---|
+| <img src="./img/slide_13.png" width="420" alt="C콘텐츠 화면 구현 슬라이드"> | <img src="./img/slide_14.png" width="420" alt="따뜻한 한마디 채팅 구현 코드 설명 슬라이드"> |
+
+| 통계 데이터 시각화 | 자료조사 반영 |
+|---|---|
+| <img src="./img/slide_15.png" width="420" alt="통계 데이터 시각화 코드 설명 슬라이드"> | <img src="./img/slide_16.png" width="420" alt="자료조사 화면 반영 슬라이드"> |
+
+<details>
+<summary>전체 슬라이드 이미지 보기</summary>
+
+| 01 | 02 | 03 |
+|---|---|---|
+| <img src="./img/slide_01.png" width="260" alt="슬라이드 1"> | <img src="./img/slide_02.png" width="260" alt="슬라이드 2"> | <img src="./img/slide_03.png" width="260" alt="슬라이드 3"> |
+| <img src="./img/slide_04.png" width="260" alt="슬라이드 4"> | <img src="./img/slide_05.png" width="260" alt="슬라이드 5"> | <img src="./img/slide_06.png" width="260" alt="슬라이드 6"> |
+| <img src="./img/slide_07.png" width="260" alt="슬라이드 7"> | <img src="./img/slide_08.png" width="260" alt="슬라이드 8"> | <img src="./img/slide_09.png" width="260" alt="슬라이드 9"> |
+| <img src="./img/slide_10.png" width="260" alt="슬라이드 10"> | <img src="./img/slide_11.png" width="260" alt="슬라이드 11"> | <img src="./img/slide_12.png" width="260" alt="슬라이드 12"> |
+| <img src="./img/slide_13.png" width="260" alt="슬라이드 13"> | <img src="./img/slide_14.png" width="260" alt="슬라이드 14"> | <img src="./img/slide_15.png" width="260" alt="슬라이드 15"> |
+| <img src="./img/slide_16.png" width="260" alt="슬라이드 16"> | <img src="./img/slide_17.png" width="260" alt="슬라이드 17"> | <img src="./img/slide_18.png" width="260" alt="슬라이드 18"> |
+
+</details>
 
 ---
 
@@ -73,6 +107,8 @@
 | 구분 | 파일 | 설명 |
 |---|---|---|
 | 포트폴리오 | `portfolio/JoEunjung_ProjectContact_Portfolio.pptx` | 개인 포트폴리오 발표자료 |
+| 포트폴리오 PDF | `portfolio/JoEunjung_ProjectContact_Portfolio.pdf` | GitHub에서 바로 확인하기 쉬운 PDF 버전 |
+| 포트폴리오 이미지 | `img/slide_01.png` ~ `img/slide_18.png` | README 미리보기용 슬라이드 이미지 |
 | 개인 작업일지 | `work-log/JoEunjung_Project_WorkLog.pdf` / `work-log/JoEunjung_Project_WorkLog.docx` | 조은정 개인 작업일지 |
 | 수행 계획서 | `work-log/JoEunjung_Project_Plan.pdf` / `work-log/JoEunjung_Project_Plan.docx` | 프로젝트 과제 수행 계획서 |
 | 팀 작업일지 | `work-log/PROJECT_CONTACT_Team_WorkLog.pdf` / `work-log/PROJECT_CONTACT_Team_WorkLog_0512.docx` | PROJECT CONTACT 팀 작업일지 |
@@ -89,6 +125,9 @@ JoEunjung_TeamProject/
 +-- README.md
 +-- portfolio/
 |   +-- JoEunjung_ProjectContact_Portfolio.pptx
+|   +-- JoEunjung_ProjectContact_Portfolio.pdf
++-- img/
+|   +-- slide_01.png ... slide_18.png
 +-- work-log/
 |   +-- JoEunjung_Project_WorkLog.docx
 |   +-- JoEunjung_Project_WorkLog.pdf
@@ -113,4 +152,4 @@ JoEunjung_TeamProject/
 작업일지와 수행 계획서는 GitHub에서 바로 확인하기 쉽도록 PDF 파일을 함께 포함했습니다.
 추후 수정이 가능하도록 PPTX, DOCX 원본 파일도 함께 보관했습니다.
 
-개인 포트폴리오 PPTX는 수정이 끝난 뒤 최신본으로 다시 교체할 예정입니다.
+개인 포트폴리오는 PPTX 원본, PDF 제출본, README 미리보기용 슬라이드 이미지 파일을 함께 포함했습니다.
