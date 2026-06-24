@@ -44,23 +44,30 @@
 
 ---
 
-## 포트폴리오 미리보기
+## 포트폴리오 전체보기
 
-최신 개인 포트폴리오 PPTX와 PDF를 함께 업로드했고, 주요 슬라이드는 이미지로 바로 확인할 수 있도록 정리했습니다.
+최신 개인 포트폴리오 PPTX와 PDF를 함께 업로드했고, 슬라이드 이미지는 아래에서 바로 확인할 수 있습니다.
 
-[전체 슬라이드 이미지 보기](#전체-슬라이드-이미지-보기)
-
-| 표지 | 개인 기여 요약 |
-|---|---|
-| <img src="./img/slide_01.png" width="420" alt="PROJECT CONTACT 포트폴리오 표지"> | <img src="./img/slide_12.png" width="420" alt="조은정 개인 기여 요약 슬라이드"> |
-
-| C콘텐츠 구현 | 채팅 코드 설명 |
-|---|---|
-| <img src="./img/slide_13.png" width="420" alt="C콘텐츠 화면 구현 슬라이드"> | <img src="./img/slide_14.png" width="420" alt="따뜻한 한마디 채팅 구현 코드 설명 슬라이드"> |
-
-| 통계 데이터 시각화 | 자료조사 반영 |
-|---|---|
-| <img src="./img/slide_15.png" width="420" alt="통계 데이터 시각화 코드 설명 슬라이드"> | <img src="./img/slide_16.png" width="420" alt="자료조사 화면 반영 슬라이드"> |
+| 슬라이드 |
+|---|
+| <img src="./img/slide_01.png" width="760" alt="슬라이드 1"> |
+| <img src="./img/slide_02.png" width="760" alt="슬라이드 2"> |
+| <img src="./img/slide_03.png" width="760" alt="슬라이드 3"> |
+| <img src="./img/slide_04.png" width="760" alt="슬라이드 4"> |
+| <img src="./img/slide_05.png" width="760" alt="슬라이드 5"> |
+| <img src="./img/slide_06.png" width="760" alt="슬라이드 6"> |
+| <img src="./img/slide_07.png" width="760" alt="슬라이드 7"> |
+| <img src="./img/slide_08.png" width="760" alt="슬라이드 8"> |
+| <img src="./img/slide_09.png" width="760" alt="슬라이드 9"> |
+| <img src="./img/slide_10.png" width="760" alt="슬라이드 10"> |
+| <img src="./img/slide_11.png" width="760" alt="슬라이드 11"> |
+| <img src="./img/slide_12.png" width="760" alt="슬라이드 12"> |
+| <img src="./img/slide_13.png" width="760" alt="슬라이드 13"> |
+| <img src="./img/slide_14.png" width="760" alt="슬라이드 14"> |
+| <img src="./img/slide_15.png" width="760" alt="슬라이드 15"> |
+| <img src="./img/slide_16.png" width="760" alt="슬라이드 16"> |
+| <img src="./img/slide_17.png" width="760" alt="슬라이드 17"> |
+| <img src="./img/slide_18.png" width="760" alt="슬라이드 18"> |
 
 ---
 
@@ -104,31 +111,35 @@
 
 ---
 
-## 폴더 구조
+## C콘텐츠 관련 프로젝트 구조
 
 ```text
-JoEunjung_TeamProject/
-+-- README.md
-+-- portfolio/
-|   +-- JoEunjung_ProjectContact_Portfolio.pptx
-|   +-- JoEunjung_ProjectContact_Portfolio.pdf
-+-- img/
-|   +-- slide_01.png ... slide_18.png
-+-- work-log/
-|   +-- JoEunjung_Project_WorkLog.docx
-|   +-- JoEunjung_Project_WorkLog.pdf
-|   +-- JoEunjung_Project_Plan.docx
-|   +-- JoEunjung_Project_Plan.pdf
-|   +-- PROJECT_CONTACT_Team_WorkLog_0512.docx
-|   +-- PROJECT_CONTACT_Team_WorkLog.pdf
-+-- assets/
-|   +-- screenshots/
-|       +-- plan_capture_01.png ... plan_capture_11.png
-+-- research/
-|   +-- SectionC_Articles_Institutions_Papers.docx
-|   +-- SectionC_Support_Institutions.png
-+-- notion/
-    +-- Notion_Link.md
+projectcontact2026-main/
++-- src/
+|   +-- components/
+|       +-- contents/
+|           +-- stepC/
+|               +-- Layering.jsx       # C구간 탭, 채팅, 설문결과, 통계 화면
+|               +-- Layering.css       # C구간 도시 레이어 UI 스타일
+|   +-- db/
+|       +-- insideList.js              # C구간 관련 정보 데이터
+|       +-- navi.js                    # 화면 이동/메뉴 데이터
++-- public/
+|   +-- img/
+|       +-- c_sum/
+|       |   +-- C_sum_main.png
+|       |   +-- CSimg001.png ... CSimg004.png
+|       +-- C_result/
+|           +-- 0001.png ... 0013.png
++-- server/
+    +-- controllers/
+    |   +-- warmMessageController.js   # 따뜻한 한마디 API 처리
+    +-- services/
+    |   +-- warmMessageService.js      # 메시지 필터링/검수 흐름
+    |   +-- statisticsService.js       # 통계 데이터 가공
+    +-- repositories/
+        +-- statisticsRepository.js    # 설문 응답 통계 SQL
+        +-- warmMessageRepository.js   # 응원 메시지 DB 조회/저장
 ```
 
 ---
@@ -139,19 +150,3 @@ JoEunjung_TeamProject/
 추후 수정이 가능하도록 PPTX, DOCX 원본 파일도 함께 보관했습니다.
 
 개인 포트폴리오는 PPTX 원본, PDF 제출본, README 미리보기용 슬라이드 이미지 파일을 함께 포함했습니다.
-
----
-
-## 전체 슬라이드 이미지 보기
-
-| 01 | 02 |
-|---|---|
-| <img src="./img/slide_01.png" width="400" alt="슬라이드 1"> | <img src="./img/slide_02.png" width="400" alt="슬라이드 2"> |
-| <img src="./img/slide_03.png" width="400" alt="슬라이드 3"> | <img src="./img/slide_04.png" width="400" alt="슬라이드 4"> |
-| <img src="./img/slide_05.png" width="400" alt="슬라이드 5"> | <img src="./img/slide_06.png" width="400" alt="슬라이드 6"> |
-| <img src="./img/slide_07.png" width="400" alt="슬라이드 7"> | <img src="./img/slide_08.png" width="400" alt="슬라이드 8"> |
-| <img src="./img/slide_09.png" width="400" alt="슬라이드 9"> | <img src="./img/slide_10.png" width="400" alt="슬라이드 10"> |
-| <img src="./img/slide_11.png" width="400" alt="슬라이드 11"> | <img src="./img/slide_12.png" width="400" alt="슬라이드 12"> |
-| <img src="./img/slide_13.png" width="400" alt="슬라이드 13"> | <img src="./img/slide_14.png" width="400" alt="슬라이드 14"> |
-| <img src="./img/slide_15.png" width="400" alt="슬라이드 15"> | <img src="./img/slide_16.png" width="400" alt="슬라이드 16"> |
-| <img src="./img/slide_17.png" width="400" alt="슬라이드 17"> | <img src="./img/slide_18.png" width="400" alt="슬라이드 18"> |
