@@ -144,11 +144,14 @@ JoEunjung_TeamProject/
 
 ## 전체 슬라이드 이미지 보기
 
-| 01 | 02 | 03 |
-|---|---|---|
-| <img src="./img/slide_01.png" width="260" alt="슬라이드 1"> | <img src="./img/slide_02.png" width="260" alt="슬라이드 2"> | <img src="./img/slide_03.png" width="260" alt="슬라이드 3"> |
-| <img src="./img/slide_04.png" width="260" alt="슬라이드 4"> | <img src="./img/slide_05.png" width="260" alt="슬라이드 5"> | <img src="./img/slide_06.png" width="260" alt="슬라이드 6"> |
-| <img src="./img/slide_07.png" width="260" alt="슬라이드 7"> | <img src="./img/slide_08.png" width="260" alt="슬라이드 8"> | <img src="./img/slide_09.png" width="260" alt="슬라이드 9"> |
-| <img src="./img/slide_10.png" width="260" alt="슬라이드 10"> | <img src="./img/slide_11.png" width="260" alt="슬라이드 11"> | <img src="./img/slide_12.png" width="260" alt="슬라이드 12"> |
-| <img src="./img/slide_13.png" width="260" alt="슬라이드 13"> | <img src="./img/slide_14.png" width="260" alt="슬라이드 14"> | <img src="./img/slide_15.png" width="260" alt="슬라이드 15"> |
-| <img src="./img/slide_16.png" width="260" alt="슬라이드 16"> | <img src="./img/slide_17.png" width="260" alt="슬라이드 17"> | <img src="./img/slide_18.png" width="260" alt="슬라이드 18"> |
+| 01 | 02 |
+|---|---|
+| <img src="./img/slide_01.png" width="400" alt="슬라이드 1"> | <img src="./img/slide_02.png" width="400" alt="슬라이드 2"> |
+| <img src="./img/slide_03.png" width="400" alt="슬라이드 3"> | <img src="./img/slide_04.png" width="400" alt="슬라이드 4"> |
+| <img src="./img/slide_05.png" width="400" alt="슬라이드 5"> | <img src="./img/slide_06.png" width="400" alt="슬라이드 6"> |
+| <img src="./img/slide_07.png" width="400" alt="슬라이드 7"> | <img src="./img/slide_08.png" width="400" alt="슬라이드 8"> |
+| <img src="./img/slide_09.png" width="400" alt="슬라이드 9"> | <img src="./img/slide_10.png" width="400" alt="슬라이드 10"> |
+| <img src="./img/slide_11.png" width="400" alt="슬라이드 11"> | <img src="./img/slide_12.png" width="400" alt="슬라이드 12"> |
+| <img src="./img/slide_13.png" width="400" alt="슬라이드 13"> | <img src="./img/slide_14.png" width="400" alt="슬라이드 14"> |
+| <img src="./img/slide_15.png" width="400" alt="슬라이드 15"> | <img src="./img/slide_16.png" width="400" alt="슬라이드 16"> |
+| <img src="./img/slide_17.png" width="400" alt="슬라이드 17"> | <img src="./img/slide_18.png" width="400" alt="슬라이드 18"> |
