@@ -44,6 +44,39 @@
 
 ---
 
+## C콘텐츠 관련 프로젝트 구조
+
+```text
+projectcontact2026-main/
++-- src/
+|   +-- components/
+|       +-- contents/
+|           +-- stepC/
+|               +-- Layering.jsx       # C구간 탭, 채팅, 설문결과, 통계 화면
+|               +-- Layering.css       # C구간 도시 레이어 UI 스타일
+|   +-- db/
+|       +-- insideList.js              # C구간 관련 정보 데이터
+|       +-- navi.js                    # 화면 이동/메뉴 데이터
++-- public/
+|   +-- img/
+|       +-- c_sum/
+|       |   +-- C_sum_main.png
+|       |   +-- CSimg001.png ... CSimg004.png
+|       +-- C_result/
+|           +-- 0001.png ... 0013.png
++-- server/
+    +-- controllers/
+    |   +-- warmMessageController.js   # 따뜻한 한마디 API 처리
+    +-- services/
+    |   +-- warmMessageService.js      # 메시지 필터링/검수 흐름
+    |   +-- statisticsService.js       # 통계 데이터 가공
+    +-- repositories/
+        +-- statisticsRepository.js    # 설문 응답 통계 SQL
+        +-- warmMessageRepository.js   # 응원 메시지 DB 조회/저장
+```
+
+---
+
 ## 포트폴리오 전체보기
 
 최신 개인 포트폴리오 PPTX와 PDF를 함께 업로드했고, 슬라이드 이미지는 아래에서 바로 확인할 수 있습니다.
@@ -108,39 +141,6 @@
 | 자료조사 | `research/SectionC_Articles_Institutions_Papers.docx` | C구간 기사, 기관, 논문 정리 자료 |
 | 자료 이미지 | `research/SectionC_Support_Institutions.png` | 고립·은둔 청년 지원기관 정리 이미지 |
 | Notion | `notion/Notion_Link.md` | Notion 작업 페이지 링크 |
-
----
-
-## C콘텐츠 관련 프로젝트 구조
-
-```text
-projectcontact2026-main/
-+-- src/
-|   +-- components/
-|       +-- contents/
-|           +-- stepC/
-|               +-- Layering.jsx       # C구간 탭, 채팅, 설문결과, 통계 화면
-|               +-- Layering.css       # C구간 도시 레이어 UI 스타일
-|   +-- db/
-|       +-- insideList.js              # C구간 관련 정보 데이터
-|       +-- navi.js                    # 화면 이동/메뉴 데이터
-+-- public/
-|   +-- img/
-|       +-- c_sum/
-|       |   +-- C_sum_main.png
-|       |   +-- CSimg001.png ... CSimg004.png
-|       +-- C_result/
-|           +-- 0001.png ... 0013.png
-+-- server/
-    +-- controllers/
-    |   +-- warmMessageController.js   # 따뜻한 한마디 API 처리
-    +-- services/
-    |   +-- warmMessageService.js      # 메시지 필터링/검수 흐름
-    |   +-- statisticsService.js       # 통계 데이터 가공
-    +-- repositories/
-        +-- statisticsRepository.js    # 설문 응답 통계 SQL
-        +-- warmMessageRepository.js   # 응원 메시지 DB 조회/저장
-```
 
 ---
 
